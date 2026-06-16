@@ -284,7 +284,7 @@ export default function ProductDetail() {
                   <tr key={listing.store} style={{ background: i === 0 ? 'rgba(108,99,255,0.04)' : '' }}>
                     <td style={{ textAlign: 'left' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: StoreColors[listing.store] }} />
+                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: StoreColors[listing.store] || '#6C63FF' }} />
                         <span style={{ fontWeight: i === 0 ? 700 : 500, fontSize: '0.875rem' }}>
                           {getStoreName(listing.store)}
                         </span>

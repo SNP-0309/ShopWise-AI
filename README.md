@@ -25,7 +25,7 @@
 
 **Backend:** Node.js + Express.js + MongoDB + Mongoose + Redis (ioredis) + Socket.io
 
-**AI:** Gemini API (search parsing, recommendations, review summaries) + Groq API (chatbot)
+**AI & Data:** Gemini API (search parsing, recommendations, review summaries) + Groq API (chatbot) + SerpAPI (Google Shopping real-time aggregation)
 
 **Auth:** JWT + Google OAuth
 
@@ -75,6 +75,7 @@ Required keys:
 - `MONGODB_URI` — MongoDB Atlas connection string
 - `GEMINI_API_KEY` — [Google AI Studio](https://aistudio.google.com/)
 - `GROQ_API_KEY` — [Groq Console](https://console.groq.com/)
+- `SERPAPI_KEY` — [SerpAPI Console](https://serpapi.com/) (real-time Google Shopping aggregation)
 - `JWT_SECRET` — Any random long string
 
 ### 3. Run Development Servers

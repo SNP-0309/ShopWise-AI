@@ -123,9 +123,26 @@ const searchProductsViaSerp = async (query, filters = {}) => {
 
   for (const item of results) {
     const rawStore = item.source || '';
-    const storeKey = mapToTrustedStore(rawStore);
+    let storeKey = mapToTrustedStore(rawStore);
 
-    // ✅ SKIP if it's not a trusted store
+    if (!storeKey && rawStore) {
+      // Create store key dynamically for unrecognized store
+      const normalizedKey = rawStore.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (normalizedKey) {
+        storeKey = normalizedKey;
+        if (!TRUSTED_STORES[storeKey]) {
+          TRUSTED_STORES[storeKey] = {
+            name: rawStore,
+            logo: '🏷️',
+            color: '#6C63FF',
+            reliable: false,
+            searchUrl: 'https://www.google.com/search?q='
+          };
+        }
+      }
+    }
+
+    // ✅ SKIP only if we couldn't produce any storeKey
     if (!storeKey) continue;
 
     const price = item.extracted_price || parseFloat(item.price?.replace(/[^0-9.]/g, '') || '0');

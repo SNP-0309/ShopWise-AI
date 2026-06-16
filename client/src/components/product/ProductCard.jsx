@@ -92,9 +92,9 @@ export default function ProductCard({ product, index = 0, onWishlist, isWishlist
               style={{
                 fontSize: '0.65rem', fontWeight: 700,
                 padding: '0.15rem 0.45rem', borderRadius: 4,
-                background: StoreColors[listing.store] + '15',
-                color: StoreColors[listing.store],
-                border: `1px solid ${StoreColors[listing.store]}30`,
+                background: (StoreColors[listing.store] || '#6C63FF') + '15',
+                color: StoreColors[listing.store] || '#6C63FF',
+                border: `1px solid ${(StoreColors[listing.store] || '#6C63FF')}30`,
               }}
             >
               {listing.store.charAt(0).toUpperCase() + listing.store.slice(1)}

@@ -3,7 +3,7 @@
  * Routes search queries to SerpAPI when available, or falls back to mockData.js
  */
 
-const { cacheGet } = require('../cache/cacheService');
+const { cacheGet, cacheSet } = require('../cache/cacheService');
 const { searchProductsViaSerp } = require('./serpService');
 const mockData = require('./mockData');
 
@@ -52,10 +52,41 @@ const getProductById = async (id) => {
 };
 
 const getTrendingProducts = async () => {
+  if (process.env.SERPAPI_KEY) {
+    try {
+      const cached = await cacheGet('serp:trending');
+      if (cached) return cached;
+      const results = await searchProductsViaSerp('trending electronics');
+      if (results.products && results.products.length > 0) {
+        const products = results.products.slice(0, 8);
+        await cacheSet('serp:trending', products, 43200);
+        return products;
+      }
+    } catch (err) {
+      console.error('Failed to fetch trending via SerpAPI:', err.message);
+    }
+  }
   return mockData.getTrendingProducts();
 };
 
 const getFeaturedDeals = async () => {
+  if (process.env.SERPAPI_KEY) {
+    try {
+      const cached = await cacheGet('serp:featured');
+      if (cached) return cached;
+      const results = await searchProductsViaSerp('electronics');
+      if (results.products && results.products.length > 0) {
+        const products = results.products.map(p => ({
+          ...p,
+          bestListing: p.storeListings.reduce((a, b) => (a.price < b.price ? a : b)),
+        })).slice(0, 6);
+        await cacheSet('serp:featured', products, 43200);
+        return products;
+      }
+    } catch (err) {
+      console.error('Failed to fetch featured via SerpAPI:', err.message);
+    }
+  }
   return mockData.getFeaturedDeals();
 };
 

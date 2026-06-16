@@ -53,11 +53,20 @@ exports.getMe = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const updates = ['name', 'avatar', 'preferences'].reduce((acc, key) => {
-      if (req.body[key] !== undefined) acc[key] = req.body[key];
-      return acc;
-    }, {});
-    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true });
+    // Whitelist allowed fields — NEVER allow role, isPremium, email, firebaseUid updates
+    const allowedFields = ['name', 'avatar', 'preferences'];
+    const updates = {};
+    for (const key of allowedFields) {
+      if (req.body[key] !== undefined) updates[key] = req.body[key];
+    }
+
+    // Validate name is not empty if provided
+    if (updates.name !== undefined && (!updates.name || typeof updates.name !== 'string' || updates.name.trim().length === 0)) {
+      return res.status(400).json({ success: false, message: 'Name cannot be empty' });
+    }
+    if (updates.name) updates.name = updates.name.trim().slice(0, 100); // Limit name length
+
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true, runValidators: true });
     res.json({ success: true, user });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

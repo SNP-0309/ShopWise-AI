@@ -22,6 +22,17 @@ const StoreNames = {
   relianceDigital: 'Reliance Digital', vijaySales: 'Vijay Sales', myntra: 'Myntra', ajio: 'Ajio',
 };
 
+// Get display name for any store key (including unknown SerpAPI sellers)
+const getStoreName = (storeKey) =>
+  StoreNames[storeKey] || (storeKey ? storeKey.charAt(0).toUpperCase() + storeKey.slice(1) : 'Store');
+
+// Build a buy URL: use real URL if valid, otherwise fall back to Google Shopping search
+const getBuyUrl = (url, productName, storeKey) => {
+  if (url && url !== '#') return url;
+  const storeName = getStoreName(storeKey);
+  return `https://www.google.com/search?q=${encodeURIComponent(productName + ' buy on ' + storeName)}&tbm=shop`;
+};
+
 export default function ProductDetail() {
   const { id } = useParams();
   const { isAuthenticated } = useAuth();
@@ -162,7 +173,7 @@ export default function ProductDetail() {
             {/* Best Price */}
             {bestListing && (
               <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', padding: '1rem' }}>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Best price on {StoreNames[bestListing.store]}</p>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>Best price on {getStoreName(bestListing.store)}</p>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '0.5rem' }}>
                   <span className="price">{formatPrice(bestListing.price)}</span>
                   {bestListing.originalPrice > bestListing.price && (
@@ -187,14 +198,14 @@ export default function ProductDetail() {
             {/* Action buttons */}
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               <a
-                href={bestListing?.url || '#'}
+                href={getBuyUrl(bestListing?.url, product.name, bestListing?.store)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary btn-lg"
                 style={{ flex: 1, justifyContent: 'center' }}
               >
                 <FiExternalLink size={16} />
-                Buy on {StoreNames[bestListing?.store]}
+                {bestListing?.isFallback ? `Search on ${getStoreName(bestListing?.store)}` : `Buy on ${getStoreName(bestListing?.store)}`}
               </a>
               <button
                 className="btn btn-secondary btn-icon btn-lg"
@@ -275,9 +286,10 @@ export default function ProductDetail() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <div style={{ width: 8, height: 8, borderRadius: '50%', background: StoreColors[listing.store] }} />
                         <span style={{ fontWeight: i === 0 ? 700 : 500, fontSize: '0.875rem' }}>
-                          {StoreNames[listing.store]}
+                          {getStoreName(listing.store)}
                         </span>
                         {i === 0 && <span className="badge badge-success" style={{ fontSize: '0.6rem' }}>BEST</span>}
+                        {listing.isFallback && <span className="badge badge-secondary" style={{ fontSize: '0.6rem', background: 'var(--bg-secondary)', color: 'var(--text-secondary)' }}>SEARCH LINK</span>}
                       </div>
                     </td>
                     <td style={{ fontWeight: 700, color: i === 0 ? 'var(--success)' : 'var(--text-primary)' }}>
@@ -297,18 +309,18 @@ export default function ProductDetail() {
                     </td>
                     <td>
                       <a
-                        href={listing.url || '#'}
+                        href={getBuyUrl(listing.url, product.name, listing.store)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-sm"
                         style={{
-                          background: StoreColors[listing.store] + '20',
-                          color: StoreColors[listing.store],
-                          border: `1px solid ${StoreColors[listing.store]}40`,
+                          background: (StoreColors[listing.store] || '#6C63FF') + '20',
+                          color: StoreColors[listing.store] || '#6C63FF',
+                          border: `1px solid ${(StoreColors[listing.store] || '#6C63FF')}40`,
                           fontSize: '0.75rem',
                         }}
                       >
-                        Buy <FiExternalLink size={10} />
+                        {listing.isFallback ? 'Search' : 'Buy'} <FiExternalLink size={10} />
                       </a>
                     </td>
                   </tr>

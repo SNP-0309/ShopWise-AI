@@ -1,4 +1,4 @@
-const { searchProducts, getProductById, getTrendingProducts, getFeaturedDeals } = require('../services/marketplace/mockData');
+const { searchProducts, getProductById, getTrendingProducts, getFeaturedDeals } = require('../services/marketplace/searchService');
 const { parseSearchQuery, generateRecommendation, summarizeReviews } = require('../services/ai/gemini');
 const { cacheGet, cacheSet, TTL } = require('../services/cache/cacheService');
 const SearchHistory = require('../models/SearchHistory');
@@ -24,6 +24,14 @@ exports.search = async (req, res) => {
       store,
       rating: rating ? parseFloat(rating) : null,
     });
+
+    // Cache individual products to ensure details lookup succeeds
+    if (products && products.length > 0) {
+      for (const product of products) {
+        // Cache the raw product representation
+        await cacheSet(`rawproduct:${product.id}`, product, TTL.PRODUCT);
+      }
+    }
 
     // Generate AI recommendation
     const recommendation = products.length > 0 ? await generateRecommendation(products, q) : null;
@@ -128,20 +136,77 @@ exports.getFeatured = async (req, res) => {
 
 exports.getSuggestions = async (req, res) => {
   const { q } = req.query;
-  const suggestions = [
+  if (!q || q.trim().length < 2) {
+    return res.json({ success: true, suggestions: [] });
+  }
+
+  // Try SerpAPI Google Autocomplete for dynamic, real suggestions
+  if (process.env.SERPAPI_KEY) {
+    try {
+      const url = `https://serpapi.com/search.json?engine=google_autocomplete&q=${encodeURIComponent(q)}&api_key=${process.env.SERPAPI_KEY}&gl=in&hl=en`;
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        const suggestions = (data.suggestions || [])
+          .map(s => s.value)
+          .filter(s => s && s.toLowerCase().includes('buy') === false) // remove "buy X" suggestions
+          .slice(0, 8);
+        if (suggestions.length > 0) {
+          return res.json({ success: true, suggestions });
+        }
+      }
+    } catch (err) {
+      console.warn('SerpAPI autocomplete failed:', err.message);
+    }
+  }
+
+  // Fallback: filter from a richer hardcoded list
+  const fallbackSuggestions = [
     'gaming laptop under 70000',
+    'gaming laptop under 50000',
+    'best laptop for college students',
     'best phone under 30000',
-    'wireless headphones',
-    'samsung 4k tv',
+    'best phone under 20000',
+    'best phone under 15000',
+    'wireless headphones noise cancelling',
+    'bluetooth earbuds under 2000',
+    'samsung 4k tv 55 inch',
+    'iphone 15 pro max',
     'iphone 15 pro',
+    'iphone 14',
     'macbook air m3',
+    'macbook pro m3',
     'oneplus 12r',
+    'oneplus 12',
+    'oneplus nord',
     'sony wh-1000xm5',
+    'sony wh-1000xm4',
     'hp pavilion gaming',
-    'asus rog',
-  ].filter((s) => s.includes(q?.toLowerCase() || ''));
-  res.json({ success: true, suggestions: suggestions.slice(0, 8) });
+    'hp laptop under 50000',
+    'asus rog strix',
+    'asus vivobook',
+    'dell xps 15',
+    'lenovo thinkpad',
+    'realme narzo 70 pro',
+    'redmi note 13 pro',
+    'samsung galaxy s24 ultra',
+    'samsung galaxy s23',
+    'google pixel 8',
+    'smartwatch under 5000',
+    'smartwatch under 10000',
+    'mi band 8',
+    'logitech mx master',
+    'mechanical keyboard',
+    'gaming mouse',
+    '4k monitor',
+    'air purifier',
+    'robot vacuum cleaner',
+    'air fryer under 3000',
+  ].filter(s => s.toLowerCase().includes(q.toLowerCase()));
+
+  res.json({ success: true, suggestions: fallbackSuggestions.slice(0, 8) });
 };
+
 
 function generateMockPriceHistory(currentPrice) {
   const history = [];

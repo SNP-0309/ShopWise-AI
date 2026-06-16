@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiSun, FiMoon, FiHeart, FiBell, FiUser, FiMenu, FiX, FiMessageSquare, FiLogOut, FiSettings } from 'react-icons/fi';
+import { FiSearch, FiSun, FiMoon, FiHeart, FiBell, FiUser, FiMenu, FiX, FiMessageSquare, FiLogOut, FiSettings, FiArrowUpLeft } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -24,12 +24,13 @@ export default function Navbar({ onChatOpen }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef();
-  const debouncedQuery = useDebounce(searchQuery, 300);
+  const debouncedQuery = useDebounce(searchQuery, 250);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -39,12 +40,17 @@ export default function Navbar({ onChatOpen }) {
 
   useEffect(() => {
     if (debouncedQuery.length >= 2) {
+      setSuggestionsLoading(true);
       productAPI.getSuggestions(debouncedQuery)
-        .then(({ data }) => { setSuggestions(data.suggestions || []); setShowSuggestions(true); })
-        .catch(() => {});
+        .then(({ data }) => {
+          setSuggestions(data.suggestions || []);
+          setShowSuggestions(true);
+        })
+        .catch(() => setSuggestions([]))
+        .finally(() => setSuggestionsLoading(false));
     } else {
       setSuggestions([]);
-      setShowSuggestions(false);
+      setSuggestionsLoading(false);
     }
   }, [debouncedQuery]);
 
@@ -78,74 +84,189 @@ export default function Navbar({ onChatOpen }) {
           </Link>
 
           {/* Search Bar (desktop) */}
-          <div style={{ flex: 1, maxWidth: 520, position: 'relative' }} ref={searchRef}>
+          <div style={{ flex: 1, maxWidth: 560, position: 'relative' }} ref={searchRef}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '0.5rem',
               background: 'var(--bg-secondary)',
-              border: '1.5px solid var(--border)',
-              borderRadius: 'var(--radius-lg)',
+              border: `1.5px solid ${showSuggestions ? 'var(--primary)' : 'var(--border)'}`,
+              borderRadius: showSuggestions ? 'var(--radius-lg) var(--radius-lg) 0 0' : 'var(--radius-lg)',
               padding: '0.5rem 0.75rem',
-              transition: 'var(--transition)',
-            }}
-            onFocus={() => {}}
-            >
-              <FiSearch color="var(--text-muted)" size={18} />
+              transition: 'border-color 0.2s, border-radius 0.15s',
+              boxShadow: showSuggestions ? '0 0 0 3px rgba(108,99,255,0.1)' : 'none',
+            }}>
+              <FiSearch color={showSuggestions ? 'var(--primary)' : 'var(--text-muted)'} size={18} style={{ transition: 'color 0.2s', flexShrink: 0 }} />
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                onFocus={() => suggestions.length && setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                placeholder='Search "gaming laptop under ₹70000"...'
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 180)}
+                placeholder='Search products, brands, or categories...'
                 style={{
                   flex: 1, background: 'transparent', border: 'none',
                   fontSize: '0.9rem', color: 'var(--text-primary)',
-                  fontFamily: 'Inter',
+                  fontFamily: 'Inter', outline: 'none',
                 }}
               />
-              {searchQuery && (
-                <button className="btn-icon btn-ghost" style={{ padding: 2 }} onClick={() => setSearchQuery('')}>
+              {suggestionsLoading && (
+                <div style={{
+                  width: 16, height: 16, borderRadius: '50%',
+                  border: '2px solid var(--border)',
+                  borderTopColor: 'var(--primary)',
+                  animation: 'spin 0.6s linear infinite',
+                  flexShrink: 0,
+                }} />
+              )}
+              {searchQuery && !suggestionsLoading && (
+                <button className="btn-icon btn-ghost" style={{ padding: 2, flexShrink: 0 }} onClick={() => { setSearchQuery(''); setSuggestions([]); }}>
                   <FiX size={14} />
                 </button>
               )}
             </div>
 
-            {/* Suggestions dropdown */}
+            {/* Rich Suggestions dropdown */}
             <AnimatePresence>
-              {showSuggestions && suggestions.length > 0 && (
+              {showSuggestions && (
                 <motion.div
-                  initial={{ opacity: 0, y: -8 }}
+                  initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
                   style={{
-                    position: 'absolute', top: 'calc(100% + 8px)', left: 0, right: 0,
+                    position: 'absolute', top: '100%', left: 0, right: 0,
                     background: 'var(--bg-card)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 'var(--radius-lg)',
-                    boxShadow: 'var(--shadow-lg)',
+                    border: '1.5px solid var(--primary)',
+                    borderTop: '1px solid var(--border)',
+                    borderRadius: '0 0 var(--radius-lg) var(--radius-lg)',
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.18)',
                     overflow: 'hidden',
-                    zIndex: 200,
+                    zIndex: 300,
                   }}
                 >
-                  {suggestions.map((s, i) => (
-                    <button
-                      key={i}
-                      onMouseDown={() => { setSearchQuery(s); handleSearch(s); }}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: '0.75rem',
-                        width: '100%', padding: '0.75rem 1rem',
-                        background: 'transparent', border: 'none',
-                        color: 'var(--text-primary)', fontSize: '0.875rem',
-                        cursor: 'pointer', textAlign: 'left',
-                        transition: 'background 0.15s',
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-secondary)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
-                      <FiSearch size={14} color="var(--text-muted)" />
-                      {s}
-                    </button>
-                  ))}
+                  {/* Trending when input is empty */}
+                  {!searchQuery && (
+                    <div style={{ padding: '0.75rem 1rem' }}>
+                      <p style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.6rem' }}>🔥 Trending Searches</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                        {[
+                          'iPhone 15 Pro', 'MacBook Air M3', 'Samsung S24 Ultra',
+                          'Sony WH-1000XM5', 'Gaming Laptop', 'OnePlus 12R',
+                          'Smart Watch', 'Wireless Earbuds',
+                        ].map(tag => (
+                          <button
+                            key={tag}
+                            onMouseDown={() => { setSearchQuery(tag); handleSearch(tag); }}
+                            style={{
+                              padding: '0.3rem 0.7rem', borderRadius: 20,
+                              background: 'var(--bg-secondary)',
+                              border: '1px solid var(--border)',
+                              fontSize: '0.78rem', cursor: 'pointer',
+                              color: 'var(--text-secondary)',
+                              transition: 'all 0.15s',
+                              fontFamily: 'Inter',
+                            }}
+                            onMouseEnter={e => { e.currentTarget.style.background = 'var(--primary)'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = 'var(--primary)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-secondary)'; e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                      <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border)' }}>
+                        <p style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>Browse Categories</p>
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          {categories.map(cat => (
+                            <button
+                              key={cat.slug}
+                              onMouseDown={() => handleSearch(cat.slug)}
+                              style={{
+                                padding: '0.3rem 0.65rem', borderRadius: 8,
+                                background: 'transparent', border: '1px solid var(--border)',
+                                fontSize: '0.78rem', cursor: 'pointer',
+                                color: 'var(--text-secondary)', display: 'flex',
+                                alignItems: 'center', gap: '0.3rem',
+                                fontFamily: 'Inter',
+                              }}
+                              onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-secondary)'}
+                              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                            >
+                              {cat.emoji} {cat.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Live suggestions while typing */}
+                  {searchQuery && suggestions.length > 0 && (
+                    <div>
+                      <p style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0.6rem 1rem 0.3rem' }}>Suggestions</p>
+                      {suggestions.map((s, i) => {
+                        // Bold the matching part
+                        const idx = s.toLowerCase().indexOf(searchQuery.toLowerCase());
+                        const before = idx >= 0 ? s.slice(0, idx) : s;
+                        const match = idx >= 0 ? s.slice(idx, idx + searchQuery.length) : '';
+                        const after = idx >= 0 ? s.slice(idx + searchQuery.length) : '';
+                        return (
+                          <button
+                            key={i}
+                            onMouseDown={() => { setSearchQuery(s); handleSearch(s); }}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '0.75rem',
+                              width: '100%', padding: '0.65rem 1rem',
+                              background: 'transparent', border: 'none',
+                              color: 'var(--text-primary)', fontSize: '0.875rem',
+                              cursor: 'pointer', textAlign: 'left',
+                              transition: 'background 0.12s',
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-secondary)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                          >
+                            <FiSearch size={13} color="var(--text-muted)" style={{ flexShrink: 0 }} />
+                            <span>
+                              {before}
+                              <strong style={{ color: 'var(--primary)' }}>{match}</strong>
+                              {after}
+                            </span>
+                            <FiArrowUpLeft size={12} color="var(--text-muted)" style={{ marginLeft: 'auto', flexShrink: 0, opacity: 0.5 }} />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* No results state */}
+                  {searchQuery && !suggestionsLoading && suggestions.length === 0 && (
+                    <div style={{ padding: '0.75rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+                      <FiSearch size={14} />
+                      Press <kbd style={{ padding: '0.1rem 0.4rem', borderRadius: 4, background: 'var(--bg-secondary)', border: '1px solid var(--border)', fontSize: '0.75rem', fontFamily: 'monospace' }}>Enter</kbd> to search for "{searchQuery}"
+                    </div>
+                  )}
+
+                  {/* Bottom hint */}
+                  {searchQuery && (
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      padding: '0.5rem 1rem',
+                      borderTop: '1px solid var(--border)',
+                      background: 'var(--bg-secondary)',
+                    }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Real-time results via Google Shopping</span>
+                      <button
+                        onMouseDown={() => handleSearch()}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.3rem',
+                          padding: '0.25rem 0.6rem', borderRadius: 6,
+                          background: 'var(--primary)', color: 'white',
+                          border: 'none', fontSize: '0.72rem', cursor: 'pointer',
+                          fontWeight: 600,
+                        }}
+                      >
+                        <FiSearch size={10} /> Search
+                      </button>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

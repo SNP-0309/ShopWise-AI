@@ -115,4 +115,4 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ---
 
-Made with ❤️ for smart Indian shoppers | ShopWise AI © 2026
+Made with ❤️ for smart Indian shoppers | ShopWise AI © 2026 | Under Production | Deployed soon 

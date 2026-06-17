@@ -19,7 +19,7 @@ const parseSearchQuery = async (query) => {
     const ai = getGemini();
     if (!ai) return fallback;
 
-    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const prompt = `
 You are a shopping assistant. Parse this search query and extract structured information.
 Query: "${query}"
@@ -61,7 +61,7 @@ const generateRecommendation = async (products, query) => {
     const ai = getGemini();
     if (!ai) return fallback;
 
-    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
     
     const productSummary = products.slice(0, 3).map((p) => ({
       name: p.name,
@@ -114,7 +114,7 @@ const summarizeReviews = async (productName, rating, reviewCount) => {
     const ai = getGemini();
     if (!ai) return fallback;
 
-    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const prompt = `
 You are a review analyst. Generate a realistic review summary for: "${productName}"
 Rating: ${rating}/5, Review Count: ${reviewCount}
@@ -146,7 +146,7 @@ const compareProducts = async (products) => {
       return { summary: 'Enable Gemini API for AI-powered comparison.', winner: products[0]?.name };
     }
 
-    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const prompt = `
 Compare these products for a user in India:
 ${products.map((p) => `- ${p.name}: ₹${Math.min(...p.storeListings.map((l) => l.price))}, Rating: ${p.rating}`).join('\n')}
@@ -183,7 +183,7 @@ const shoppingAgent = async (query, budget) => {
       };
     }
 
-    const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
     const prompt = `
 You are ShopWise AI shopping agent. A user says: "${query}"
 Budget: ₹${budget}

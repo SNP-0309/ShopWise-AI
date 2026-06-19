@@ -12,6 +12,9 @@ client/.vite/
 .env.local
 .env.production
 server/.env
+client/.env
+client/.env.local
+client/.env.production
 
 # Logs
 logs/

@@ -5,7 +5,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import AIChat from './components/ai/AIChat';
+import ProtectedRoute from './components/common/ProtectedRoute';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/Home'));
@@ -33,68 +36,85 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-            <Navbar onChatOpen={() => setChatOpen(true)} />
+          <ErrorBoundary>
+            <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)', display: 'flex', flexDirection: 'column' }}>
+              <Navbar onChatOpen={() => setChatOpen(true)} />
 
-            <Suspense fallback={<PageLoader />}>
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-                  <Route path="/search" element={<PageWrapper><Search /></PageWrapper>} />
-                  <Route path="/product/:id" element={<PageWrapper><ProductDetail /></PageWrapper>} />
-                  <Route path="/compare" element={<PageWrapper><Compare /></PageWrapper>} />
-                  <Route path="/wishlist" element={<PageWrapper><Wishlist /></PageWrapper>} />
-                  <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
-                  <Route path="/dashboard" element={<PageWrapper><Dashboard /></PageWrapper>} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </AnimatePresence>
-            </Suspense>
+              <main style={{ flex: 1 }}>
+                <Suspense fallback={<PageLoader />}>
+                  <AnimatePresence mode="wait">
+                    <Routes>
+                      <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+                      <Route path="/search" element={<PageWrapper><Search /></PageWrapper>} />
+                      <Route path="/product/:id" element={<PageWrapper><ProductDetail /></PageWrapper>} />
+                      <Route path="/compare" element={<PageWrapper><Compare /></PageWrapper>} />
+                      <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
 
-            {/* Floating AI Chat */}
-            <AIChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+                      {/* Protected routes — require authentication */}
+                      <Route path="/wishlist" element={
+                        <ProtectedRoute>
+                          <PageWrapper><Wishlist /></PageWrapper>
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/dashboard" element={
+                        <ProtectedRoute>
+                          <PageWrapper><Dashboard /></PageWrapper>
+                        </ProtectedRoute>
+                      } />
 
-            {/* Toast notifications */}
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  background: 'var(--bg-card)',
-                  color: 'var(--text-primary)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: '0.875rem',
-                },
-              }}
-            />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </AnimatePresence>
+                </Suspense>
+              </main>
 
-            {/* AI Chat Bubble (always visible) */}
-            {!chatOpen && (
-              <motion.button
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1, type: 'spring' }}
-                onClick={() => setChatOpen(true)}
-                id="ai-chat-bubble"
-                style={{
-                  position: 'fixed', bottom: '2rem', right: '2rem',
-                  width: 56, height: 56, borderRadius: '50%',
-                  background: 'var(--gradient-primary)',
-                  border: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 8px 30px rgba(108,99,255,0.45)',
-                  zIndex: 150,
-                  color: 'white', fontSize: '1.5rem',
+              <Footer />
+
+              {/* Floating AI Chat */}
+              <AIChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+
+              {/* Toast notifications */}
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 3000,
+                  style: {
+                    background: 'var(--bg-card)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 'var(--radius-md)',
+                    fontSize: '0.875rem',
+                  },
                 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                title="Open AI Assistant"
-              >
-                ✨
-              </motion.button>
-            )}
-          </div>
+              />
+
+              {/* AI Chat Bubble (always visible when chat is closed) */}
+              {!chatOpen && (
+                <motion.button
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1, type: 'spring' }}
+                  onClick={() => setChatOpen(true)}
+                  id="ai-chat-bubble"
+                  style={{
+                    position: 'fixed', bottom: '2rem', right: '2rem',
+                    width: 56, height: 56, borderRadius: '50%',
+                    background: 'var(--gradient-primary)',
+                    border: 'none', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 8px 30px rgba(108,99,255,0.45)',
+                    zIndex: 150,
+                    color: 'white', fontSize: '1.5rem',
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Open AI Assistant"
+                >
+                  ✨
+                </motion.button>
+              )}
+            </div>
+          </ErrorBoundary>
         </Router>
       </AuthProvider>
     </ThemeProvider>

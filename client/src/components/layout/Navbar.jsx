@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiSearch, FiSun, FiMoon, FiHeart, FiBell, FiUser, FiMenu, FiX, FiMessageSquare, FiLogOut, FiSettings, FiArrowUpLeft } from 'react-icons/fi';
+import { FiSearch, FiSun, FiMoon, FiHeart, FiUser, FiMenu, FiX, FiMessageSquare, FiLogOut, FiSettings, FiArrowUpLeft } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { productAPI } from '../../services/api';
 import { useDebounce } from '../../hooks/useDebounce';
+import NotificationBell from '../common/NotificationBell';
 
 const categories = [
   { name: 'Laptops', emoji: '💻', slug: 'laptop' },
@@ -342,9 +343,12 @@ export default function Navbar({ onChatOpen }) {
             </button>
 
             {/* Wishlist */}
-            <Link to="/wishlist" className="btn btn-icon btn-ghost" style={{ position: 'relative' }}>
+            <Link to="/wishlist" className="btn btn-icon btn-ghost" style={{ position: 'relative' }} title="Wishlist">
               <FiHeart size={18} />
             </Link>
+
+            {/* Notification Bell */}
+            <NotificationBell />
 
             {/* User */}
             {isAuthenticated ? (

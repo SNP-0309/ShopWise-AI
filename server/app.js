@@ -18,6 +18,9 @@ const productRoutes = require('./src/routes/products');
 const aiRoutes = require('./src/routes/ai');
 const userRoutes = require('./src/routes/users');
 
+// Utilities
+const { startPriceAlertCron } = require('./src/utils/priceAlertCron');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -155,6 +158,8 @@ const start = async () => {
     console.log(`\n🚀 ShopWise AI Server running on http://localhost:${PORT}`);
     console.log(`📡 Health check: http://localhost:${PORT}/api/health\n`);
   });
+  // Start price alert cron job (pass io for real-time notifications)
+  startPriceAlertCron(io);
 };
 
 start();

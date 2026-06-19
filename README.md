@@ -27,7 +27,7 @@
 
 **AI & Data:** Gemini API (search parsing, recommendations, review summaries) + Groq API (chatbot) + SerpAPI (Google Shopping real-time aggregation)
 
-**Auth:** JWT + Google OAuth
+**Auth:** Firebase Authentication (Google, Email/Password) + JWT token verification
 
 **Payments:** Razorpay (premium subscriptions — placeholder)
 
@@ -94,17 +94,26 @@ Open [http://localhost:5173](http://localhost:5173)
 
 | Method | Route | Description |
 |---|---|---|
-| `POST` | `/api/auth/register` | Register new user |
-| `POST` | `/api/auth/login` | Login with JWT |
+| `POST` | `/api/auth/sync` | Sync Firebase user with MongoDB |
+| `GET` | `/api/auth/me` | Get current user profile |
+| `PUT` | `/api/auth/profile` | Update user profile |
 | `GET` | `/api/products/search?q=...` | AI-powered product search |
 | `GET` | `/api/products/:id` | Product detail + AI summary |
 | `GET` | `/api/products/trending` | Trending products |
 | `GET` | `/api/products/featured` | Featured deals |
+| `GET` | `/api/products/suggestions?q=...` | Search autocomplete |
 | `POST` | `/api/ai/chat` | AI chatbot (Groq) |
 | `POST` | `/api/ai/compare` | AI product comparison |
 | `POST` | `/api/ai/agent` | AI shopping agent |
 | `GET` | `/api/users/wishlist` | User's wishlist |
+| `POST` | `/api/users/wishlist` | Add to wishlist |
+| `DELETE` | `/api/users/wishlist/:productId` | Remove from wishlist |
+| `GET` | `/api/users/alerts` | Get price alerts |
 | `POST` | `/api/users/alerts` | Set price alert |
+| `DELETE` | `/api/users/alerts/:id` | Delete price alert |
+| `GET` | `/api/users/notifications` | Get notifications |
+| `GET` | `/api/users/search-history` | Get search history |
+| `GET` | `/api/health` | Server health check |
 
 ## 🎨 Design System
 

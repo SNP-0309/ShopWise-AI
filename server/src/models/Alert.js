@@ -11,6 +11,7 @@ const alertSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
   triggered: { type: Boolean, default: false },
   triggeredAt: Date,
+  triggeredPrice: Number,
   notificationSent: { type: Boolean, default: false },
 }, { timestamps: true });
 

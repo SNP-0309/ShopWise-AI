@@ -1688,4 +1688,115 @@ input, textarea { outline: none; }
   border-color: white;
 }
 
+/* ── GENERAL ADIDAS STREETWEAR UTILITIES ── */
+.adidas-card {
+  background: var(--bg-card);
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.9) !important;
+  transition: all 0.2s ease;
+}
+[data-theme='dark'] .adidas-card {
+  border-color: #334155 !important;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.4) !important;
+}
+
+.adidas-badge {
+  border-radius: 0 !important;
+  border: 2px solid black !important;
+  font-family: 'Oswald', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.9) !important;
+  background: white;
+  color: black;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.7rem;
+}
+[data-theme='dark'] .adidas-badge {
+  background: #1e293b;
+  border-color: #475569 !important;
+  color: white;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.4) !important;
+}
+
+.adidas-heading {
+  font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+  font-weight: 800 !important;
+}
+
+.adidas-btn-primary {
+  background: black !important;
+  color: white !important;
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  font-family: 'Oswald', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.9) !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.adidas-btn-primary:hover {
+  background: white !important;
+  color: black !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.9) !important;
+}
+[data-theme='dark'] .adidas-btn-primary {
+  background: #1e293b !important;
+  color: white !important;
+  border-color: #475569 !important;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.4) !important;
+}
+[data-theme='dark'] .adidas-btn-primary:hover {
+  background: white !important;
+  color: black !important;
+  border-color: white !important;
+}
+
+.adidas-btn-secondary {
+  background: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  font-family: 'Oswald', sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.9) !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.adidas-btn-secondary:hover {
+  background: black !important;
+  color: white !important;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.9) !important;
+}
+[data-theme='dark'] .adidas-btn-secondary {
+  background: #0f172a !important;
+  color: white !important;
+  border-color: #334155 !important;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.4) !important;
+}
+[data-theme='dark'] .adidas-btn-secondary:hover {
+  background: white !important;
+  color: black !important;
+  border-color: white !important;
+}
+
+
 

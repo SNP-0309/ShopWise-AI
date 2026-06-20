@@ -56,7 +56,7 @@ export default function Compare() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: '4rem' }}>
       <div className="container" style={{ padding: '2rem 1.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Compare Products</h1>
+          <h1 className="adidas-heading" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Compare Products</h1>
           <p style={{ color: 'var(--text-secondary)' }}>Add up to 4 products and get an AI-powered side-by-side comparison</p>
         </div>
 
@@ -67,9 +67,9 @@ export default function Compare() {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             placeholder='Search products to compare...'
-            className="input-field"
+            className="adidas-input"
           />
-          <button className="btn btn-primary" onClick={handleSearch} disabled={loadingSearch}>
+          <button className="adidas-btn-primary" style={{ padding: '0.75rem 1.5rem', width: 'auto' }} onClick={handleSearch} disabled={loadingSearch}>
             {loadingSearch ? '...' : 'Search'}
           </button>
         </div>
@@ -77,7 +77,7 @@ export default function Compare() {
         {/* Search results */}
         {searchResults.length > 0 && (
           <div style={{ marginBottom: '2rem' }}>
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            <p className="adidas-heading" style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
               Click a product to add it to comparison ({selectedProducts.length}/4)
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
@@ -90,8 +90,9 @@ export default function Compare() {
                     style={{
                       cursor: isSelected ? 'default' : 'pointer',
                       opacity: isSelected ? 0.5 : 1,
-                      border: isSelected ? '2px solid var(--primary)' : '2px solid transparent',
-                      borderRadius: 'var(--radius-xl)',
+                      border: isSelected ? '2px solid black' : '2px solid transparent',
+                      borderRadius: 0,
+                      boxShadow: isSelected ? '3px 3px 0px rgba(0,0,0,0.9)' : 'none',
                     }}
                   >
                     <ProductCard product={product} />
@@ -106,9 +107,10 @@ export default function Compare() {
         {selectedProducts.length > 0 && (
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-              <h2 style={{ fontSize: '1.25rem' }}>Comparing {selectedProducts.length} Products</h2>
+              <h2 className="adidas-heading" style={{ fontSize: '1.4rem' }}>Comparing {selectedProducts.length} Products</h2>
               <button
-                className="btn btn-primary"
+                className="adidas-btn-primary"
+                style={{ padding: '0.65rem 1.25rem' }}
                 onClick={handleCompare}
                 disabled={selectedProducts.length < 2 || loadingCompare}
               >
@@ -122,21 +124,21 @@ export default function Compare() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="ai-panel"
-                style={{ marginBottom: '2rem' }}
+                className="adidas-card"
+                style={{ marginBottom: '2rem', padding: '1.5rem', background: 'rgba(54,124,101,0.06)' }}
               >
                 <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <HiSparkles size={18} color="white" />
+                  <div style={{ width: 36, height: 36, borderRadius: 0, background: 'black', border: '1px solid black', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <HiSparkles size={18} color="var(--brand-accent)" />
                   </div>
                   <div>
-                    <p style={{ fontWeight: 700, marginBottom: '0.25rem' }}>AI Verdict</p>
+                    <p className="adidas-heading" style={{ fontWeight: 800, marginBottom: '0.25rem' }}>AI Verdict</p>
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{comparison.summary}</p>
                   </div>
                 </div>
                 {comparison.winner && (
-                  <div style={{ background: 'rgba(108,99,255,0.1)', border: '1px solid rgba(108,99,255,0.25)', borderRadius: 10, padding: '0.75rem' }}>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 700 }}>🏆 Winner: {comparison.winner}</p>
+                  <div className="adidas-card" style={{ background: 'rgba(54,124,101,0.06)', border: '1px solid black', boxShadow: 'none', padding: '0.75rem' }}>
+                    <p className="adidas-heading" style={{ fontSize: '0.85rem', color: '#367c65', fontWeight: 800 }}>🏆 Winner: {comparison.winner}</p>
                     <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{comparison.winnerReason}</p>
                   </div>
                 )}
@@ -145,20 +147,20 @@ export default function Compare() {
 
             {/* Comparison table */}
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid black' }}>
                 {/* Product headers */}
                 <thead>
                   <tr>
-                    <th style={{ padding: '1rem', background: 'var(--bg-secondary)', border: '1px solid var(--border)', width: 150, textAlign: 'left', fontSize: '0.85rem' }}>Spec</th>
+                    <th className="adidas-heading" style={{ padding: '1rem', background: 'var(--bg-secondary)', border: '2px solid black', width: 150, textAlign: 'left', fontSize: '0.8rem', letterSpacing: '0.05em' }}>Spec</th>
                     {selectedProducts.map((p) => (
-                      <th key={p.id} style={{ padding: '1rem', background: 'var(--bg-secondary)', border: '1px solid var(--border)', textAlign: 'center', minWidth: 200 }}>
+                      <th key={p.id} style={{ padding: '1rem', background: 'var(--bg-secondary)', border: '2px solid black', textAlign: 'center', minWidth: 200 }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                          <img referrerPolicy="no-referrer" src={p.image} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8 }} />
-                          <p style={{ fontSize: '0.8rem', fontWeight: 600, lineHeight: 1.3 }}>{p.name}</p>
-                          <p style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--primary)' }}>
+                          <img referrerPolicy="no-referrer" src={p.image} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 0, border: '1.5px solid black' }} />
+                          <p className="adidas-heading" style={{ fontSize: '0.8rem', fontWeight: 800, lineHeight: 1.3 }}>{p.name}</p>
+                          <p className="adidas-heading" style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                             {formatPrice(Math.min(...(p.storeListings?.map((l) => l.price) || [0])))}
                           </p>
-                          <button onClick={() => removeFromCompare(p.id)} style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.72rem' }}>
+                          <button onClick={() => removeFromCompare(p.id)} style={{ background: 'none', border: '2px solid var(--danger)', color: 'var(--danger)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 2, fontSize: '0.72rem', padding: '0.2rem 0.5rem', fontFamily: 'Oswald', textTransform: 'uppercase', fontWeight: 800 }}>
                             <FiTrash2 size={10} /> Remove
                           </button>
                         </div>
@@ -169,9 +171,9 @@ export default function Compare() {
                 <tbody>
                   {/* Rating row */}
                   <tr>
-                    <td style={{ padding: '0.875rem 1rem', border: '1px solid var(--border)', fontSize: '0.85rem', fontWeight: 600 }}>Rating</td>
+                    <td className="adidas-heading" style={{ padding: '0.875rem 1rem', border: '2px solid black', fontSize: '0.8rem', fontWeight: 800 }}>Rating</td>
                     {selectedProducts.map((p) => (
-                      <td key={p.id} style={{ padding: '0.875rem', border: '1px solid var(--border)', textAlign: 'center', fontSize: '0.9rem', fontWeight: 600 }}>
+                      <td key={p.id} style={{ padding: '0.875rem', border: '2px solid black', textAlign: 'center', fontSize: '0.9rem', fontWeight: 600 }}>
                         ⭐ {p.rating} <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 400 }}>({p.reviewCount?.toLocaleString('en-IN')})</span>
                       </td>
                     ))}
@@ -179,9 +181,9 @@ export default function Compare() {
                   {/* Spec rows */}
                   {allSpecKeys.map((key) => (
                     <tr key={key}>
-                      <td style={{ padding: '0.875rem 1rem', border: '1px solid var(--border)', fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 500, textTransform: 'capitalize' }}>{key}</td>
+                      <td className="adidas-heading" style={{ padding: '0.875rem 1rem', border: '2px solid black', fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 800 }}>{key}</td>
                       {selectedProducts.map((p) => (
-                        <td key={p.id} style={{ padding: '0.875rem', border: '1px solid var(--border)', textAlign: 'center', fontSize: '0.85rem' }}>
+                        <td key={p.id} style={{ padding: '0.875rem', border: '2px solid black', textAlign: 'center', fontSize: '0.85rem' }}>
                           {p.specs?.[key] || <span style={{ color: 'var(--text-muted)' }}>—</span>}
                         </td>
                       ))}
@@ -194,7 +196,7 @@ export default function Compare() {
             {/* Add more */}
             {selectedProducts.length < 4 && (
               <button
-                className="btn btn-secondary"
+                className="adidas-btn-secondary"
                 style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
@@ -208,7 +210,7 @@ export default function Compare() {
         {selectedProducts.length === 0 && searchResults.length === 0 && (
           <div style={{ textAlign: 'center', padding: '4rem 0' }}>
             <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚖️</p>
-            <h2 style={{ marginBottom: '0.5rem' }}>Start Comparing</h2>
+            <h2 className="adidas-heading" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Start Comparing</h2>
             <p style={{ color: 'var(--text-secondary)', maxWidth: 400, margin: '0 auto' }}>
               Search for products above, then add them to compare side by side with AI-powered insights.
             </p>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { FiSearch, FiMic, FiArrowRight, FiZap, FiTrendingUp, FiShield, FiStar } from 'react-icons/fi';
+import { FiSearch, FiArrowRight, FiZap, FiShield, FiStar } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import ProductCard from '../components/product/ProductCard';
 import { ProductCardSkeleton } from '../components/common/Skeleton';
@@ -377,15 +377,12 @@ export default function Home() {
       </section>
 
       {/* ===== FEATURED DEALS ===== */}
-      <section className="section" ref={featuredRef}>
+      <section style={{ background: 'var(--bg-primary)', borderBottom: '2px solid var(--border)', padding: '3rem 0' }} ref={featuredRef}>
         <div className="container">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>🔥 Featured Deals</h2>
-              <p style={{ color: 'var(--text-secondary)' }}>Today's best prices, curated by AI</p>
-            </div>
-            <Link to="/search?q=deals" className="btn btn-secondary btn-sm">
-              View All <FiArrowRight size={14} />
+          <div className="adidas-category-header-row" style={{ borderBottom: '2px solid var(--border)', marginBottom: '2rem' }}>
+            <h2 className="adidas-category-title">🔥 Featured Deals</h2>
+            <Link to="/search?q=deals" className="adidas-category-shopall" style={{ textDecoration: 'none' }}>
+              View All →
             </Link>
           </div>
           <div className="products-grid">
@@ -397,15 +394,13 @@ export default function Home() {
       </section>
 
       {/* ===== FEATURES ===== */}
-      <section className="section" style={{ background: 'var(--bg-secondary)' }}>
+      <section style={{ background: 'var(--bg-secondary)', borderBottom: '2px solid var(--border)', padding: '4rem 0' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>
-              Why <span className="gradient-text">ShopWise AI?</span>
-            </h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: 500, margin: '0 auto' }}>
-              We combine real-time marketplace data with AI to help you make smarter purchases — every time.
-            </p>
+          <div className="adidas-category-header-row" style={{ borderBottom: '2px solid var(--border)', marginBottom: '2.5rem' }}>
+            <h2 className="adidas-category-title">Why ShopWise AI?</h2>
+            <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
+              AI-Powered • Real-Time Data
+            </span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
             {features.map((f, i) => (
@@ -415,19 +410,29 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="card"
-                style={{ padding: '1.75rem' }}
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '2px solid var(--border)',
+                  borderRadius: 0,
+                  padding: '1.75rem',
+                  boxShadow: '4px 4px 0px rgba(0,0,0,0.15)',
+                  transition: 'box-shadow 0.2s, transform 0.2s',
+                  cursor: 'default'
+                }}
+                whileHover={{ y: -4, boxShadow: '6px 6px 0px rgba(0,0,0,0.3)' }}
               >
                 <div style={{
-                  width: 48, height: 48, borderRadius: 14,
-                  background: f.color + '18',
+                  width: 48, height: 48,
+                  background: 'black',
+                  border: '2px solid black',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: f.color, marginBottom: '1rem',
+                  boxShadow: '3px 3px 0px ' + f.color
                 }}>
                   {f.icon}
                 </div>
-                <h3 style={{ fontSize: '1.05rem', marginBottom: '0.5rem' }}>{f.title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{f.desc}</p>
+                <h3 style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 800, fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{f.title}</h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -435,16 +440,13 @@ export default function Home() {
       </section>
 
       {/* ===== TRENDING ===== */}
-      <section className="section">
+      <section style={{ background: 'var(--bg-primary)', borderBottom: '2px solid var(--border)', padding: '3rem 0' }}>
         <div className="container">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>
-                <FiTrendingUp style={{ display: 'inline', marginRight: '0.5rem', color: 'var(--primary)' }} />
-                Trending Now
-              </h2>
-              <p style={{ color: 'var(--text-secondary)' }}>What people are searching for</p>
-            </div>
+          <div className="adidas-category-header-row" style={{ borderBottom: '2px solid var(--border)', marginBottom: '2rem' }}>
+            <h2 className="adidas-category-title">📈 Trending Now</h2>
+            <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
+              What people are searching for
+            </span>
           </div>
           <div className="products-grid">
             {loadingTrending

@@ -19,7 +19,14 @@ const StoreColors = {
 
 export default function ProductCard({ product, index = 0, onWishlist, isWishlisted }) {
   const [imgError, setImgError] = useState(false);
-  
+
+  // Cache product data in sessionStorage so ProductDetail can recover on cache miss
+  const saveToSession = () => {
+    try {
+      sessionStorage.setItem(`product:${product.id}`, JSON.stringify(product));
+    } catch (_) {}
+  };
+
   if (!product) return null;
 
   const bestListing = product.storeListings?.reduce((a, b) => (a.price < b.price ? a : b));
@@ -36,7 +43,7 @@ export default function ProductCard({ product, index = 0, onWishlist, isWishlist
       className="adidas-product-card"
     >
       {/* Image */}
-      <Link to={`/product/${product.id}`} style={{ display: 'block', position: 'relative' }}>
+      <Link to={`/product/${product.id}`} onClick={saveToSession} style={{ display: 'block', position: 'relative' }}>
         <div className="adidas-card-img-container">
           <img 
             referrerPolicy="no-referrer" 
@@ -103,7 +110,7 @@ export default function ProductCard({ product, index = 0, onWishlist, isWishlist
         </div>
 
         {/* Name */}
-        <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/product/${product.id}`} onClick={saveToSession} style={{ textDecoration: 'none' }}>
           <h3 className="adidas-card-name" style={{
             display: '-webkit-box', WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical', overflow: 'hidden',
@@ -142,6 +149,7 @@ export default function ProductCard({ product, index = 0, onWishlist, isWishlist
         {/* Buy button */}
         <Link
           to={`/product/${product.id}`}
+          onClick={saveToSession}
           className="adidas-card-btn"
           style={{ textDecoration: 'none' }}
         >

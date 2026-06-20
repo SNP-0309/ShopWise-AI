@@ -30,6 +30,10 @@ exports.search = async (req, res) => {
       for (const product of products) {
         // Cache the raw product representation
         await cacheSet(`rawproduct:${product.id}`, product, TTL.PRODUCT);
+        // Cache product name for recovery on future cache miss (long TTL)
+        if (product.id.startsWith('serp_') && product.name) {
+          await cacheSet(`productname:${product.id}`, product.name, TTL.SESSION);
+        }
       }
     }
 

@@ -3,7 +3,7 @@
  * Routes search queries to SerpAPI when available, or falls back to mockData.js
  */
 
-const { cacheGet, cacheSet } = require('../cache/cacheService');
+const { cacheGet, cacheSet, TTL } = require('../cache/cacheService');
 const { searchProductsViaSerp } = require('./serpService');
 const mockData = require('./mockData');
 
@@ -46,8 +46,26 @@ const getProductById = async (id) => {
     console.error('Failed to get product from Redis cache:', err.message);
   }
 
-  // In case of cache miss (e.g. direct load, refresh), return null (or generate placeholder)
-  console.log(`ℹ️ Cache miss for SerpAPI product ID: ${id}.`);
+  // Cache miss — try to recover using stored product name to re-search SerpAPI
+  try {
+    const productName = await cacheGet(`productname:${id}`);
+    if (productName && process.env.SERPAPI_KEY) {
+      console.log(`🔄 Cache miss for ${id}, re-fetching via SerpAPI for: "${productName}"`);
+      const results = await searchProductsViaSerp(productName);
+      if (results.products && results.products.length > 0) {
+        // Find the matching product by ID
+        const match = results.products.find(p => p.id === id) || results.products[0];
+        if (match) {
+          await cacheSet(`rawproduct:${id}`, match, 3600);
+          return match;
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Failed to re-fetch SerpAPI product by name:', err.message);
+  }
+
+  console.log(`ℹ️ Cache miss for SerpAPI product ID: ${id}. Unable to recover.`);
   return null;
 };
 

@@ -36,7 +36,7 @@ export default function Footer() {
   return (
     <footer style={{
       background: 'var(--bg-secondary)',
-      borderTop: '1px solid var(--border)',
+      borderTop: '2px solid var(--text-primary)',
       padding: '4rem 0 2rem',
       marginTop: 'auto',
     }}>
@@ -79,8 +79,8 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="btn btn-icon btn-ghost"
-                  style={{ border: '1px solid var(--border)' }}
+                  className="adidas-btn-secondary"
+                  style={{ width: 36, height: 36, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '2px 2px 0px rgba(0,0,0,0.9)' }}
                 >
                   {s.icon}
                 </a>
@@ -91,7 +91,7 @@ export default function Footer() {
           {/* Link groups */}
           {Object.entries(footerLinks).map(([group, links]) => (
             <div key={group}>
-              <h4 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-secondary)' }}>
+              <h4 className="adidas-heading" style={{ fontSize: '0.875rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
                 {group}
               </h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
@@ -103,7 +103,7 @@ export default function Footer() {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ color: 'var(--text-muted)', fontSize: '0.875rem', transition: 'color 0.15s' }}
-                        onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
+                        onMouseEnter={e => e.currentTarget.style.color = 'var(--brand-accent)'}
                         onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
                       >
                         {link.label}
@@ -112,7 +112,7 @@ export default function Footer() {
                       <Link
                         to={link.to}
                         style={{ color: 'var(--text-muted)', fontSize: '0.875rem', transition: 'color 0.15s' }}
-                        onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
+                        onMouseEnter={e => e.currentTarget.style.color = 'var(--brand-accent)'}
                         onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
                       >
                         {link.label}
@@ -126,14 +126,14 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+        <div style={{ borderTop: '2px solid var(--text-primary)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
             © 2026 ShopWise AI. All rights reserved. Made with <FiHeart size={12} style={{ display: 'inline', color: '#ef4444', margin: '0 2px' }} /> for smart Indian shoppers.
           </p>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(t => (
               <a key={t} href="#" style={{ color: 'var(--text-muted)', fontSize: '0.8rem', transition: 'color 0.15s' }}
-                onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--brand-accent)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
               >{t}</a>
             ))}

@@ -72,19 +72,19 @@ export default function Search() {
         <div className="container">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
             <div>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+              <h1 className="adidas-heading" style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '0.5rem' }}>
                 {loading ? 'Searching...' : `${total} results for "${query}"`}
               </h1>
               {aiParsed && !loading && (
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                   {aiParsed.category && (
-                    <span className="badge badge-primary">📦 {aiParsed.category}</span>
+                    <span className="adidas-badge">📦 {aiParsed.category}</span>
                   )}
                   {aiParsed.budget && (
-                    <span className="badge badge-success">💰 Under ₹{aiParsed.budget.toLocaleString('en-IN')}</span>
+                    <span className="adidas-badge" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--success)' }}>💰 Under ₹{aiParsed.budget.toLocaleString('en-IN')}</span>
                   )}
                   {aiParsed.usage && (
-                    <span className="badge badge-cyan">🎯 {aiParsed.usage}</span>
+                    <span className="adidas-badge" style={{ background: 'rgba(6,182,212,0.1)', color: 'var(--info)' }}>🎯 {aiParsed.usage}</span>
                   )}
                 </div>
               )}
@@ -93,13 +93,14 @@ export default function Search() {
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="input-field"
-                style={{ width: 'auto', padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+                className="adidas-input"
+                style={{ width: 'auto', padding: '0.5rem 2rem 0.5rem 1rem', fontSize: '0.85rem', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', fontWeight: 800 }}
               >
                 {sortOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
               <button
-                className="btn btn-secondary btn-sm"
+                className="adidas-btn-secondary"
+                style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
                 onClick={() => setFilterOpen(!filterOpen)}
               >
                 <FiSliders size={14} /> Filters
@@ -118,30 +119,28 @@ export default function Search() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
+                className="adidas-card"
                 style={{
                   width: 240, flexShrink: 0,
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-xl)',
                   padding: '1.5rem',
                   position: 'sticky', top: 80,
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>Filters</h3>
-                  <button className="btn-ghost btn-icon" onClick={() => setFilterOpen(false)}>
+                  <h3 className="adidas-heading" style={{ fontSize: '1.1rem', fontWeight: 800 }}>Filters</h3>
+                  <button className="adidas-btn-secondary" style={{ width: 32, height: 32, padding: 0 }} onClick={() => setFilterOpen(false)}>
                     <FiX size={16} />
                   </button>
                 </div>
 
                 {/* Budget */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', display: 'block' }}>Max Budget (₹)</label>
+                  <label className="adidas-heading" style={{ fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.5rem', display: 'block' }}>Max Budget (₹)</label>
                   <input
                     type="number"
                     value={maxBudget}
                     onChange={(e) => setMaxBudget(e.target.value)}
-                    className="input-field"
+                    className="adidas-input"
                     placeholder="e.g. 70000"
                     style={{ fontSize: '0.875rem' }}
                   />
@@ -150,8 +149,8 @@ export default function Search() {
                       <button
                         key={b}
                         onClick={() => setMaxBudget(String(b))}
-                        className={`btn btn-sm ${maxBudget === String(b) ? 'btn-primary' : 'btn-secondary'}`}
-                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.72rem' }}
+                        className={`adidas-btn-${maxBudget === String(b) ? 'primary' : 'secondary'}`}
+                        style={{ padding: '0.3rem 0.6rem', fontSize: '0.72rem', width: 'auto' }}
                       >
                         ₹{(b / 1000).toFixed(0)}k
                       </button>
@@ -161,14 +160,14 @@ export default function Search() {
 
                 {/* Min Rating */}
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', display: 'block' }}>Min Rating</label>
+                  <label className="adidas-heading" style={{ fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.5rem', display: 'block' }}>Min Rating</label>
                   <div style={{ display: 'flex', gap: '0.4rem' }}>
                     {[3, 3.5, 4, 4.5].map((r) => (
                       <button
                         key={r}
                         onClick={() => setMinRating(String(r))}
-                        className={`btn btn-sm ${minRating === String(r) ? 'btn-primary' : 'btn-secondary'}`}
-                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: 2 }}
+                        className={`adidas-btn-${minRating === String(r) ? 'primary' : 'secondary'}`}
+                        style={{ padding: '0.3rem 0.6rem', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: 2, width: 'auto' }}
                       >
                         <FiStar size={10} fill={minRating === String(r) ? 'white' : '#F59E0B'} color={minRating === String(r) ? 'white' : '#F59E0B'} />
                         {r}+
@@ -180,7 +179,7 @@ export default function Search() {
                 {/* Clear filters */}
                 {(maxBudget || minRating) && (
                   <button
-                    className="btn btn-secondary btn-sm"
+                    className="adidas-btn-secondary"
                     style={{ width: '100%', justifyContent: 'center' }}
                     onClick={() => { setMaxBudget(''); setMinRating(''); }}
                   >
@@ -198,20 +197,20 @@ export default function Search() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="ai-panel"
-                style={{ marginBottom: '1.5rem' }}
+                className="adidas-card"
+                style={{ marginBottom: '1.5rem', padding: '1.5rem', background: 'rgba(54,124,101,0.06)' }}
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1rem' }}>
                   <div style={{
-                    width: 36, height: 36, borderRadius: 10,
-                    background: 'var(--gradient-primary)',
+                    width: 36, height: 36, borderRadius: 0,
+                    background: 'black', border: '1px solid black',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
-                    <HiSparkles size={18} color="white" />
+                    <HiSparkles size={18} color="var(--brand-accent)" />
                   </div>
                   <div>
-                    <p style={{ fontWeight: 700, marginBottom: '0.25rem', fontSize: '0.95rem' }}>AI Recommendation</p>
+                    <p className="adidas-heading" style={{ fontWeight: 800, marginBottom: '0.25rem', fontSize: '1.1rem' }}>AI Recommendation</p>
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                       {recommendation.summary}
                     </p>
@@ -219,23 +218,23 @@ export default function Search() {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem' }}>
                   {recommendation.bestPrice && (
-                    <div style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 10, padding: '0.75rem' }}>
-                      <p style={{ fontSize: '0.7rem', color: 'var(--success)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>💰 Best Price</p>
-                      <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>{recommendation.bestPrice.store}</p>
+                    <div className="adidas-card" style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid black', boxShadow: 'none', padding: '0.75rem' }}>
+                      <p className="adidas-heading" style={{ fontSize: '0.7rem', color: 'var(--success)', fontWeight: 800, letterSpacing: '0.05em', marginBottom: '0.25rem' }}>💰 Best Price</p>
+                      <p className="adidas-heading" style={{ fontSize: '0.85rem', fontWeight: 800 }}>{recommendation.bestPrice.store}</p>
                       <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{recommendation.bestPrice.reason}</p>
                     </div>
                   )}
                   {recommendation.bestRating && (
-                    <div style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 10, padding: '0.75rem' }}>
-                      <p style={{ fontSize: '0.7rem', color: 'var(--warning)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>⭐ Best Rated</p>
-                      <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>{recommendation.bestRating.product}</p>
+                    <div className="adidas-card" style={{ background: 'rgba(245,158,11,0.06)', border: '1px solid black', boxShadow: 'none', padding: '0.75rem' }}>
+                      <p className="adidas-heading" style={{ fontSize: '0.7rem', color: 'var(--warning)', fontWeight: 800, letterSpacing: '0.05em', marginBottom: '0.25rem' }}>⭐ Best Rated</p>
+                      <p className="adidas-heading" style={{ fontSize: '0.85rem', fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{recommendation.bestRating.product}</p>
                       <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{recommendation.bestRating.reason}</p>
                     </div>
                   )}
                   {recommendation.recommended && (
-                    <div style={{ background: 'rgba(108,99,255,0.08)', border: '1px solid rgba(108,99,255,0.25)', borderRadius: 10, padding: '0.75rem' }}>
-                      <p style={{ fontSize: '0.7rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>🏆 AI Top Pick</p>
-                      <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>{recommendation.recommended.product}</p>
+                    <div className="adidas-card" style={{ background: 'rgba(54,124,101,0.06)', border: '1px solid black', boxShadow: 'none', padding: '0.75rem' }}>
+                      <p className="adidas-heading" style={{ fontSize: '0.7rem', color: '#367c65', fontWeight: 800, letterSpacing: '0.05em', marginBottom: '0.25rem' }}>🏆 AI Top Pick</p>
+                      <p className="adidas-heading" style={{ fontSize: '0.85rem', fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{recommendation.recommended.product}</p>
                       <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{recommendation.recommended.reason}</p>
                     </div>
                   )}
@@ -251,9 +250,9 @@ export default function Search() {
             ) : sortedResults.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '5rem 0' }}>
                 <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</p>
-                <h2 style={{ marginBottom: '0.5rem' }}>No results found</h2>
+                <h2 className="adidas-heading" style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>No results found</h2>
                 <p style={{ color: 'var(--text-secondary)' }}>Try a different search term or remove filters</p>
-                <Link to="/" className="btn btn-primary" style={{ marginTop: '1.5rem', display: 'inline-flex' }}>
+                <Link to="/" className="adidas-btn-primary" style={{ marginTop: '1.5rem', display: 'inline-flex', padding: '0.75rem 2rem' }}>
                   Back to Home
                 </Link>
               </div>

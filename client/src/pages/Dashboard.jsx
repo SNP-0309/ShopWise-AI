@@ -58,18 +58,19 @@ export default function Dashboard() {
       <div className="container" style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '2.5rem' }}>
         
         {/* Sidebar Nav */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <div className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div className="adidas-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
             <div style={{
-              width: 72, height: 72, borderRadius: '50%',
-              background: 'var(--gradient-primary)',
+              width: 72, height: 72, borderRadius: 0,
+              background: 'black', border: '2px solid black',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '1.8rem', color: 'white', fontWeight: 800
+              fontSize: '1.8rem', color: 'var(--brand-accent)', fontWeight: 800,
+              boxShadow: '3px 3px 0px rgba(0,0,0,0.9)'
             }}>
               {user?.name?.[0]?.toUpperCase()}
             </div>
             <div style={{ textAlign: 'center' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>{user?.name}</h3>
+              <h3 className="adidas-heading" style={{ fontSize: '1.1rem', fontWeight: 800 }}>{user?.name}</h3>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{user?.email}</p>
             </div>
           </div>
@@ -82,12 +83,11 @@ export default function Dashboard() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className="btn"
+              className={activeTab === tab.id ? 'adidas-btn-primary' : 'adidas-btn-secondary'}
               style={{
                 justifyContent: 'flex-start',
-                background: activeTab === tab.id ? 'var(--gradient-primary)' : 'transparent',
-                color: activeTab === tab.id ? 'white' : 'var(--text-secondary)',
-                boxShadow: activeTab === tab.id ? '0 4px 12px rgba(108,99,255,0.2)' : 'none'
+                padding: '0.65rem 1rem',
+                fontSize: '0.85rem'
               }}
             >
               {tab.icon} {tab.label}
@@ -96,33 +96,33 @@ export default function Dashboard() {
         </div>
 
         {/* Tab Content */}
-        <div className="card" style={{ padding: '2.5rem 2rem', background: 'var(--bg-card)' }}>
+        <div className="adidas-card" style={{ padding: '2.5rem 2rem', background: 'var(--bg-card)' }}>
           {activeTab === 'profile' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>👤 Profile Information</h2>
+              <h2 className="adidas-heading" style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>👤 Profile Information</h2>
               <form onSubmit={handleUpdateProfile} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', maxWidth: 480 }}>
                 <div>
-                  <label htmlFor="dashboard-name-input" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Full Name</label>
+                  <label htmlFor="dashboard-name-input" className="adidas-heading" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Full Name</label>
                   <input
                     id="dashboard-name-input"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="input-field"
+                    className="adidas-input"
                   />
                 </div>
                 <div>
-                  <label htmlFor="dashboard-email-input" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Email Address</label>
+                  <label htmlFor="dashboard-email-input" className="adidas-heading" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Email Address</label>
                   <input
                     id="dashboard-email-input"
                     type="email"
                     value={email}
                     disabled
-                    className="input-field"
+                    className="adidas-input"
                     style={{ opacity: 0.6, cursor: 'not-allowed' }}
                   />
                 </div>
-                <button id="dashboard-save-profile-btn" type="submit" disabled={loading} className="btn btn-primary" style={{ width: 'fit-content', marginTop: '0.5rem' }}>
+                <button id="dashboard-save-profile-btn" type="submit" disabled={loading} className="adidas-btn-primary" style={{ width: 'fit-content', padding: '0.75rem 2rem', marginTop: '0.5rem' }}>
                   {loading ? 'Saving...' : 'Save Changes'}
                 </button>
               </form>
@@ -131,7 +131,7 @@ export default function Dashboard() {
 
           {activeTab === 'alerts' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>🔔 Active Price Alerts</h2>
+              <h2 className="adidas-heading" style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>🔔 Active Price Alerts</h2>
               {alerts.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-muted)' }}>
                   <p style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔔</p>
@@ -140,17 +140,17 @@ export default function Dashboard() {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {alerts.map((alert) => (
-                    <div key={alert._id} className="card" style={{ padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-secondary)' }}>
+                    <div key={alert._id} className="adidas-card" style={{ padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-secondary)', boxShadow: 'none' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                        <img referrerPolicy="no-referrer" src={alert.productImage} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} />
+                        <img referrerPolicy="no-referrer" src={alert.productImage} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 0, border: '1.5px solid black' }} />
                         <div>
-                          <h4 style={{ fontSize: '0.95rem', fontWeight: 600 }}>{alert.productName}</h4>
-                          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                            Current: <span style={{ fontWeight: 700 }}>₹{alert.currentPrice?.toLocaleString('en-IN')}</span> | Target: <span style={{ color: 'var(--success)', fontWeight: 700 }}>₹{alert.targetPrice?.toLocaleString('en-IN')}</span>
+                          <h4 className="adidas-heading" style={{ fontSize: '0.95rem', fontWeight: 800 }}>{alert.productName}</h4>
+                          <p className="adidas-heading" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                            Current: <span style={{ fontWeight: 800, color: 'var(--text-primary)' }}>₹{alert.currentPrice?.toLocaleString('en-IN')}</span> | Target: <span style={{ color: 'var(--success)', fontWeight: 800 }}>₹{alert.targetPrice?.toLocaleString('en-IN')}</span>
                           </p>
                         </div>
                       </div>
-                      <button id={`delete-alert-${alert._id}`} onClick={() => handleDeleteAlert(alert._id)} className="btn btn-ghost" style={{ color: 'var(--danger)', padding: 8 }}>
+                      <button id={`delete-alert-${alert._id}`} onClick={() => handleDeleteAlert(alert._id)} className="adidas-btn-secondary" style={{ color: 'var(--danger)', border: '2px solid var(--danger)', width: 34, height: 34, padding: 0 }}>
                         <FiTrash2 size={16} />
                       </button>
                     </div>
@@ -162,7 +162,7 @@ export default function Dashboard() {
 
           {activeTab === 'history' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>⏱️ Recent Search History</h2>
+              <h2 className="adidas-heading" style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>⏱️ Recent Search History</h2>
               {history.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-muted)' }}>
                   <p style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>🔎</p>
@@ -171,9 +171,9 @@ export default function Dashboard() {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {history.map((h, i) => (
-                    <div key={i} className="card" style={{ padding: '0.85rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-secondary)', fontSize: '0.9rem' }}>
-                      <span style={{ fontWeight: 500 }}>"{h.query}"</span>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{new Date(h.createdAt).toLocaleDateString()}</span>
+                    <div key={i} className="adidas-card" style={{ padding: '0.85rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-secondary)', fontSize: '0.9rem', boxShadow: 'none' }}>
+                      <span className="adidas-heading" style={{ fontSize: '0.85rem', fontWeight: 800 }}>"{h.query}"</span>
+                      <span className="adidas-heading" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 800 }}>{new Date(h.createdAt).toLocaleDateString()}</span>
                     </div>
                   ))}
                 </div>

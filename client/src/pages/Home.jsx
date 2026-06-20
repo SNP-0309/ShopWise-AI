@@ -6,6 +6,8 @@ import { HiSparkles } from 'react-icons/hi2';
 import ProductCard from '../components/product/ProductCard';
 import { ProductCardSkeleton } from '../components/common/Skeleton';
 import { productAPI } from '../services/api';
+import logoImg from '../assets/logo.png';
+
 
 const categories = [
   { icon: '💻', label: 'Laptops', slug: 'laptop' },
@@ -48,6 +50,250 @@ const HERO_QUERIES = [
   '"Compare iPhone 15 vs Galaxy S24..."',
 ];
 
+const AdidasHero = ({ searchQuery, setSearchQuery, handleSearch, HERO_QUERIES, heroPlaceholder, stores }) => {
+  return (
+    <div>
+      <div className="adidas-hero">
+        {/* Panel 1: Left - Real Laptop/Typing Image with Overlay */}
+        <div className="adidas-panel">
+          <img 
+            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&fit=crop&q=80" 
+            alt="Smart Shopping" 
+            referrerPolicy="no-referrer"
+          />
+          <div className="adidas-overlay" />
+          
+          {/* Content Overlay */}
+          <div className="adidas-content" style={{ padding: '2rem 1.5rem' }}>
+            <div className="adidas-block-title">COMPARE 7+ STORES</div>
+            <div className="adidas-block-text">
+              Instantly track prices across Amazon, Flipkart, Croma, Reliance Digital & more. Never overpay again.
+            </div>
+            
+            {/* Inline Button Group */}
+            <div className="adidas-btn-group">
+              <Link to="/search?q=laptop" className="adidas-btn-action">
+                TECH →
+              </Link>
+              <Link to="/search?q=fashion" className="adidas-btn-action">
+                FASHION →
+              </Link>
+              <Link to="/search?q=deals" className="adidas-btn-action">
+                DEALS →
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Panel 2: Middle - Core Search & Slogan with Solid Brand Background */}
+        <div className="adidas-panel-center" style={{ overflow: 'hidden' }}>
+          {/* Subtle Adidas Three Stripes Background Graphic */}
+          <div className="adidas-stripes">
+            <div className="adidas-stripe" />
+            <div className="adidas-stripe" />
+            <div className="adidas-stripe" />
+          </div>
+
+          <div style={{
+            position: 'absolute', width: '250px', height: '250px',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
+            top: '10%', pointerEvents: 'none',
+          }} />
+
+          <span style={{
+            background: 'rgba(255, 255, 255, 0.12)', border: '2px solid black',
+            borderRadius: 0, padding: '0.375rem 1rem',
+            fontSize: '0.7rem', fontWeight: 800, color: 'white',
+            display: 'flex', alignItems: 'center', gap: '0.4rem',
+            marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.1em',
+            boxShadow: '3px 3px 0px rgba(0,0,0,0.9)',
+            zIndex: 1,
+            fontFamily: 'Oswald, sans-serif'
+          }}>
+            <HiSparkles size={12} style={{ color: 'var(--brand-accent)' }} />
+            Powered by Gemini + Groq AI
+          </span>
+
+          <img 
+            src={logoImg} 
+            alt="ShopWise AI" 
+            style={{ 
+              width: '180px', 
+              height: 'auto', 
+              marginBottom: '1rem',
+              border: '2px solid black',
+              boxShadow: '4px 4px 0px rgba(0,0,0,0.9)',
+              background: 'black',
+              zIndex: 1
+            }} 
+          />
+          <p className="adidas-center-sub" style={{ marginTop: '0.5rem', marginBottom: '1.5rem' }}>
+            COMPARE. DECIDE. SAVE.
+          </p>
+
+          {/* Integrated Search Bar */}
+          <div className="adidas-search-container">
+            <div className="adidas-search-box">
+              <FiSearch size={20} color="#475569" style={{ flexShrink: 0 }} />
+              <input
+                id="hero-search-input"
+                className="adidas-search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                placeholder={HERO_QUERIES[heroPlaceholder]}
+              />
+              <button
+                id="hero-search-btn"
+                className="adidas-search-btn"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+
+          <Link 
+            to="/search?q=laptop+mouse+headphones+under+80000" 
+            style={{ 
+              color: 'white', 
+              fontWeight: 800, 
+              fontSize: '0.8rem', 
+              textTransform: 'uppercase', 
+              letterSpacing: '0.1em', 
+              borderBottom: '2px solid var(--brand-accent)', 
+              paddingBottom: '2px', 
+              transition: 'color 0.2s',
+              zIndex: 1,
+              fontFamily: 'Oswald, sans-serif',
+              textDecoration: 'none'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--brand-accent)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+          >
+            Try AI Shopping Agent →
+          </Link>
+        </div>
+
+        {/* Panel 3: Right - Real Product close-up image with Stark Overlay */}
+        <div className="adidas-panel adidas-panel-last">
+          <img 
+            src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&auto=format&fit=crop&q=80" 
+            alt="Premium Products" 
+            referrerPolicy="no-referrer"
+          />
+          <div className="adidas-overlay" />
+          
+          {/* Content Overlay */}
+          <div className="adidas-content" style={{ padding: '2rem 1.5rem' }}>
+            <div className="adidas-block-title">AI DECISION ENGINE</div>
+            <div className="adidas-block-text">
+              Don't read thousands of reviews. Our AI summarizes pros, cons, and verdict for you instantly.
+            </div>
+
+            {/* Inline Button Group */}
+            <div className="adidas-btn-group">
+              <button 
+                onClick={() => {
+                  document.getElementById('open-ai-chat-btn')?.click();
+                }}
+                className="adidas-btn-action"
+              >
+                CHAT WITH AI →
+              </button>
+              <Link to="/search?q=laptop+mouse+headphones+under+80000" className="adidas-btn-action">
+                TRY COPILOT →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Full-width strip of stores searches across */}
+      <div className="store-strip">
+        <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Oswald, sans-serif' }}>Searches across:</span>
+        {stores.map((s) => (
+          <span
+            key={s.name}
+            style={{
+              background: 'var(--bg-card)',
+              border: '2px solid black',
+              borderRadius: 0,
+              padding: '0.35rem 0.75rem',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              boxShadow: '2px 2px 0px rgba(0,0,0,0.9)',
+              fontFamily: 'Oswald, sans-serif'
+            }}
+          >
+            {s.emoji} {s.name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const AdidasPromoOffers = () => {
+  const promos = [
+    {
+      subtitle: 'Premium Laptops',
+      title: 'UPGRADE YOUR SETUP',
+      deal: 'UP TO 40% OFF INTEL & M3',
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&auto=format&fit=crop&q=80',
+      link: '/search?q=laptop',
+      btnText: 'EXPLORE TECH'
+    },
+    {
+      subtitle: 'Flagship Phones',
+      title: 'ICONS NEVER MISS',
+      deal: 'MINIMUM 25% SAVINGS',
+      image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80',
+      link: '/search?q=phone',
+      btnText: 'SHOP PHONES'
+    },
+    {
+      subtitle: 'Audiophile Gear',
+      title: 'PURE AUDIO ESSENTIALS',
+      deal: 'FLAT 30% OFF ANC HEARABLES',
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80',
+      link: '/search?q=headphones',
+      btnText: 'SHOP AUDIO'
+    },
+    {
+      subtitle: 'Smart Wearables',
+      title: 'SAVINGS OF THE SEASON',
+      deal: 'FLAT 50% OFF TARGETS',
+      image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&auto=format&fit=crop&q=80',
+      link: '/search?q=smartwatch',
+      btnText: 'SPECIAL OFFERS'
+    }
+  ];
+
+  return (
+    <div className="adidas-promo-grid">
+      {promos.map((promo, idx) => (
+        <div key={idx} className="adidas-promo-card">
+          <img src={promo.image} alt={promo.title} referrerPolicy="no-referrer" />
+          <div className="adidas-promo-overlay" />
+          <div className="adidas-promo-content">
+            <span className="adidas-promo-subtitle">{promo.subtitle}</span>
+            <h3 className="adidas-promo-title">{promo.title}</h3>
+            <span className="adidas-promo-deal">{promo.deal}</span>
+            <Link to={promo.link} className="adidas-promo-btn">
+              {promo.btnText} →
+            </Link>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
@@ -85,119 +331,44 @@ export default function Home() {
   return (
     <div>
       {/* ===== HERO SECTION ===== */}
-      <section className="hero">
-        <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '4rem 1.5rem' }}>
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}
-          >
-            <span style={{
-              background: 'rgba(108,99,255,0.15)', border: '1px solid rgba(108,99,255,0.3)',
-              borderRadius: 999, padding: '0.375rem 1rem',
-              fontSize: '0.8rem', fontWeight: 600, color: '#A78BFA',
-              display: 'flex', alignItems: 'center', gap: '0.4rem',
-            }}>
-              <HiSparkles size={14} />
-              Powered by Gemini + Groq AI
-            </span>
-          </motion.div>
+      <AdidasHero 
+        searchQuery={searchQuery} 
+        setSearchQuery={setSearchQuery} 
+        handleSearch={handleSearch} 
+        HERO_QUERIES={HERO_QUERIES} 
+        heroPlaceholder={heroPlaceholder}
+        stores={stores}
+      />
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 800, color: 'white', lineHeight: 1.1, marginBottom: '1.25rem' }}
-          >
-            Shop Smarter with{' '}
-            <span className="gradient-text">AI Intelligence</span>
-          </motion.h1>
+      {/* ===== ADIDAS PROMO OFFERS ===== */}
+      <AdidasPromoOffers />
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.65)', maxWidth: 560, margin: '0 auto 2.5rem', lineHeight: 1.7 }}
-          >
-            Compare prices across Amazon, Flipkart, Croma & 7+ stores. AI-powered recommendations, review summaries, and price alerts — all in one place.
-          </motion.p>
-
-          {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            style={{ maxWidth: 680, margin: '0 auto' }}
-          >
-            <div className="search-hero">
-              <HiSparkles size={20} color="rgba(255,255,255,0.6)" />
-              <input
-                id="hero-search-input"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder={HERO_QUERIES[heroPlaceholder]}
-                style={{ flex: 1 }}
-              />
-              <button
-                id="hero-search-btn"
-                onClick={handleSearch}
-                className="btn btn-primary btn-lg"
-                style={{ borderRadius: 20, padding: '0.75rem 1.5rem' }}
-              >
-                <FiSearch size={18} />
-                Search
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Store logos */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            style={{ marginTop: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}
-          >
-            <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>Searches across</span>
-            {stores.map((s) => (
-              <span
-                key={s.name}
-                style={{
-                  background: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 8, padding: '0.25rem 0.6rem',
-                  fontSize: '0.75rem', color: 'rgba(255,255,255,0.7)',
-                }}
-              >
-                {s.emoji} {s.name}
-              </span>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ===== CATEGORIES ===== */}
-      <section className="section-sm" style={{ background: 'var(--bg-secondary)' }}>
+      {/* ===== SHOP BY CATEGORY ===== */}
+      <section style={{ background: 'var(--bg-primary)', borderBottom: '2px solid var(--border)', padding: '3rem 0' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h2 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Browse by Category</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>Find the best deals across all product categories</p>
+          <div className="adidas-category-header-row" style={{ borderBottom: '2px solid var(--border)' }}>
+            <h2 className="adidas-category-title">Shop by Category</h2>
+            <Link to="/search?q=deals" className="adidas-category-shopall" style={{ textDecoration: 'none' }}>
+              Shop All →
+            </Link>
           </div>
-          <div className="categories-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))' }}>
-            {categories.map((cat, i) => (
+          <div className="adidas-cat-grid">
+            {[
+              { label: 'Laptops', slug: 'laptop', image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&fit=crop&q=80' },
+              { label: 'Phones', slug: 'phone', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=80' },
+              { label: 'Audio', slug: 'headphones', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80' },
+              { label: 'Fashion', slug: 'fashion', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&auto=format&fit=crop&q=80' },
+            ].map((cat, i) => (
               <motion.div
                 key={cat.slug}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
-                <Link to={`/search?q=${cat.slug}`}>
-                  <div className="category-pill">
-                    <span className="icon">{cat.icon}</span>
-                    <span className="label">{cat.label}</span>
-                  </div>
+                <Link to={`/search?q=${cat.slug}`} className="adidas-cat-card" style={{ textDecoration: 'none' }}>
+                  <img src={cat.image} alt={cat.label} referrerPolicy="no-referrer" />
+                  <div className="adidas-cat-overlay" />
+                  <div className="adidas-cat-label">{cat.label}</div>
                 </Link>
               </motion.div>
             ))}
@@ -290,28 +461,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            style={{
-              background: 'var(--gradient-hero)',
-              borderRadius: 'var(--radius-2xl)',
-              padding: '3rem',
-              position: 'relative',
-              overflow: 'hidden',
-              textAlign: 'center',
-            }}
+            className="adidas-ai-banner"
           >
-            <div style={{
-              position: 'absolute', width: 300, height: 300,
-              background: 'radial-gradient(circle, rgba(108,99,255,0.4) 0%, transparent 70%)',
-              top: -100, right: -50, pointerEvents: 'none',
-            }} />
-            <HiSparkles size={40} color="#A78BFA" style={{ marginBottom: '1rem' }} />
-            <h2 style={{ fontSize: '2rem', color: 'white', marginBottom: '0.75rem' }}>
-              Meet Your AI Shopping Agent
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.65)', maxWidth: 480, margin: '0 auto 2rem', fontSize: '1rem' }}>
-              Tell our AI your budget and needs. It'll create a complete shopping plan across multiple categories — all within your budget.
-            </p>
-            <Link to="/search?q=laptop+mouse+headphones+under+80000" className="btn btn-primary btn-lg">
+            <h3 className="adidas-ai-banner-text">
+              Meet Your AI Shopping Agent — Plan your entire setup within your budget
+            </h3>
+            <Link to="/search?q=laptop+mouse+headphones+under+80000" className="adidas-ai-banner-btn">
               Try AI Shopping Agent <FiArrowRight size={16} />
             </Link>
           </motion.div>
@@ -321,9 +476,11 @@ export default function Home() {
       {/* ===== TESTIMONIALS ===== */}
       <section className="section" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Loved by Shoppers</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>Real stories from real users who saved money with ShopWise AI</p>
+          <div className="adidas-category-header-row" style={{ marginBottom: '2.5rem' }}>
+            <h2 className="adidas-category-title">Loved by Shoppers</h2>
+            <span style={{ fontFamily: 'Oswald, sans-serif', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
+              Real Stories • Real Savings
+            </span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
             {testimonials.map((t, i) => (
@@ -333,22 +490,23 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="card"
-                style={{ padding: '1.75rem' }}
+                className="adidas-testimonial-card"
               >
                 <div style={{ display: 'flex', gap: '0.25rem', marginBottom: '1rem' }}>
                   {Array.from({ length: t.rating }).map((_, j) => (
                     <FiStar key={j} size={14} color="#F59E0B" fill="#F59E0B" />
                   ))}
                 </div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.5rem', flexGrow: 1 }}>
                   "{t.text}"
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <div style={{ fontSize: '2rem' }}>{t.avatar}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: 'auto' }}>
+                  <div className="adidas-testimonial-avatar">{t.avatar}</div>
                   <div>
-                    <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>{t.name}</p>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t.location}</p>
+                    <h4 className="adidas-testimonial-name">{t.name}</h4>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>
+                      {t.location}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -357,51 +515,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FOOTER ===== */}
-      <footer style={{
-        background: 'var(--bg-secondary)',
-        borderTop: '1px solid var(--border)',
-        padding: '3rem 0 1.5rem',
-      }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                <div style={{ width: 32, height: 32, background: 'var(--gradient-primary)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <HiSparkles color="white" size={16} />
-                </div>
-                <span style={{ fontFamily: 'Sora', fontWeight: 800 }}>ShopWise AI</span>
-              </div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                India's smartest shopping aggregator. Compare prices, read AI summaries, and save money every time.
-              </p>
-            </div>
-            {[
-              { heading: 'Product', links: ['Search', 'Compare', 'Wishlist', 'AI Chat', 'Price Alerts'] },
-              { heading: 'Stores', links: ['Amazon', 'Flipkart', 'Croma', 'Reliance Digital', 'Vijay Sales'] },
-              { heading: 'Company', links: ['About', 'Blog', 'Careers', 'Privacy', 'Terms'] },
-            ].map((col) => (
-              <div key={col.heading}>
-                <h4 style={{ fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.9rem' }}>{col.heading}</h4>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                  {col.links.map((l) => (
-                    <li key={l}>
-                      <a href="#" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', transition: 'color 0.15s' }}
-                        onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
-                        onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
-                      >{l}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>© 2026 ShopWise AI. All rights reserved.</p>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Made with ❤️ for smart Indian shoppers</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
+

@@ -142,7 +142,7 @@ export default function Dashboard() {
                   {alerts.map((alert) => (
                     <div key={alert._id} className="card" style={{ padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-secondary)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                        <img src={alert.productImage} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} />
+                        <img referrerPolicy="no-referrer" src={alert.productImage} alt="" style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} />
                         <div>
                           <h4 style={{ fontSize: '0.95rem', fontWeight: 600 }}>{alert.productName}</h4>
                           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>

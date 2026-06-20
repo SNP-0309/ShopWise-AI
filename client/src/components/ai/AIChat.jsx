@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiSend, FiX, FiMinimize2, FiMaximize2 } from 'react-icons/fi';
 import { HiSparkles } from 'react-icons/hi2';
 import { aiAPI } from '../../services/api';
+import logoImg from '../../assets/logo.png';
+
 
 const SUGGESTIONS = [
   'Best phone under ₹30,000',
@@ -81,15 +83,9 @@ export default function AIChat({ isOpen, onClose }) {
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setIsMinimized(false)}
-            style={{
-              width: 56, height: 56, borderRadius: '50%',
-              background: 'var(--gradient-primary)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 8px 30px rgba(108,99,255,0.4)',
-              border: 'none', cursor: 'pointer', color: 'white',
-            }}
+            className="adidas-chat-bubble"
           >
-            <HiSparkles size={24} />
+            ✨
           </motion.button>
         ) : (
           <motion.div
@@ -97,36 +93,25 @@ export default function AIChat({ isOpen, onClose }) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            style={{
-              width: 380,
-              maxHeight: 600,
-              background: 'var(--bg-card)',
-              borderRadius: 'var(--radius-xl)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
-              border: '1px solid var(--border)',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}
+            className="adidas-chat-card"
           >
             {/* Header */}
-            <div style={{
-              padding: '1rem 1.25rem',
-              background: 'var(--gradient-primary)',
-              display: 'flex', alignItems: 'center', gap: '0.75rem',
-            }}>
+            <div className="adidas-chat-header">
               <div style={{
-                width: 36, height: 36, borderRadius: '50%',
-                background: 'rgba(255,255,255,0.2)',
+                width: 34, height: 34,
+                borderRadius: '50%',
+                overflow: 'hidden',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'black',
+                border: '1.5px solid black',
               }}>
-                <HiSparkles size={20} color="white" />
+                <img src={logoImg} alt="" style={{ width: '130%', height: 'auto', marginTop: '-5%', display: 'block' }} />
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ color: 'white', fontWeight: 700, fontSize: '0.95rem' }}>ShopWise AI</p>
+                <p style={{ color: 'white', fontWeight: 800, fontSize: '0.95rem', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.02em', margin: 0, lineHeight: 1.2 }}>ShopWise AI</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                   <div className="pulse-dot" style={{ background: '#4ADE80' }} />
-                  <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.72rem' }}>Online • Powered by Groq</span>
+                  <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.72rem', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Online • Powered by Groq</span>
                 </div>
               </div>
               <button
@@ -210,24 +195,15 @@ export default function AIChat({ isOpen, onClose }) {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                 placeholder="Ask anything about products..."
-                style={{
-                  flex: 1, background: 'var(--bg-secondary)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius-md)', padding: '0.625rem 0.875rem',
-                  fontSize: '0.875rem', color: 'var(--text-primary)', fontFamily: 'Inter',
-                }}
+                className="adidas-chat-input"
               />
               <button
                 onClick={() => sendMessage()}
                 disabled={!input.trim() || loading}
+                className="adidas-chat-send-btn"
                 style={{
-                  width: 38, height: 38, borderRadius: 'var(--radius-md)',
-                  background: input.trim() ? 'var(--gradient-primary)' : 'var(--bg-secondary)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  border: 'none', cursor: input.trim() ? 'pointer' : 'default',
+                  background: input.trim() ? 'black' : 'var(--bg-secondary)',
                   color: input.trim() ? 'white' : 'var(--text-muted)',
-                  transition: 'all 0.2s',
-                  flexShrink: 0,
                 }}
               >
                 <FiSend size={15} />

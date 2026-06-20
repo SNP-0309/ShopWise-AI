@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { HiSparkles } from 'react-icons/hi2';
 import { FiGithub, FiTwitter, FiInstagram, FiMail, FiHeart } from 'react-icons/fi';
+import logoImg from '../../assets/logo.png';
+
 
 const footerLinks = {
   Product: [
@@ -49,15 +51,20 @@ export default function Footer() {
         }}>
           {/* Brand */}
           <div style={{ maxWidth: 320 }}>
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem', textDecoration: 'none' }}>
               <div style={{
-                width: 36, height: 36, background: 'var(--gradient-primary)',
-                borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: 38, height: 38,
+                borderRadius: 8,
+                overflow: 'hidden',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'black',
+                border: '2px solid black',
+                boxShadow: '2px 2px 0px rgba(0,0,0,0.9)',
               }}>
-                <HiSparkles color="white" size={20} />
+                <img src={logoImg} alt="" style={{ width: '130%', height: 'auto', marginTop: '-5%', display: 'block' }} />
               </div>
-              <span style={{ fontFamily: 'Sora', fontWeight: 800, fontSize: '1.1rem' }}>
-                Shop<span className="gradient-text">Wise</span> AI
+              <span style={{ fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.02em', color: 'var(--text-primary)', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase' }}>
+                Shop<span style={{ color: 'var(--brand-accent)' }}>Wise</span> AI
               </span>
             </Link>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.25rem' }}>

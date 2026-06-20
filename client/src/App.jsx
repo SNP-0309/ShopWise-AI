@@ -88,7 +88,6 @@ function App() {
                 }}
               />
 
-              {/* AI Chat Bubble (always visible when chat is closed) */}
               {!chatOpen && (
                 <motion.button
                   initial={{ scale: 0 }}
@@ -96,17 +95,8 @@ function App() {
                   transition={{ delay: 1, type: 'spring' }}
                   onClick={() => setChatOpen(true)}
                   id="ai-chat-bubble"
-                  style={{
-                    position: 'fixed', bottom: '2rem', right: '2rem',
-                    width: 56, height: 56, borderRadius: '50%',
-                    background: 'var(--gradient-primary)',
-                    border: 'none', cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: '0 8px 30px rgba(108,99,255,0.45)',
-                    zIndex: 150,
-                    color: 'white', fontSize: '1.5rem',
-                  }}
-                  whileHover={{ scale: 1.1 }}
+                  className="adidas-chat-bubble"
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   title="Open AI Assistant"
                 >

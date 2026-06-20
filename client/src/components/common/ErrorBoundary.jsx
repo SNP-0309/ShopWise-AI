@@ -26,7 +26,7 @@ export default class ErrorBoundary extends Component {
           flexDirection: 'column', gap: '1.5rem', padding: '2rem', textAlign: 'center',
         }}>
           <div style={{ fontSize: '5rem' }}>⚠️</div>
-          <h2 style={{ fontFamily: 'Sora', fontSize: '1.75rem', color: 'var(--text-primary)' }}>
+          <h2 style={{ fontSize: '1.75rem', color: 'var(--text-primary)' }}>
             Something went wrong
           </h2>
           <p style={{ color: 'var(--text-muted)', maxWidth: 480, lineHeight: 1.7 }}>
@@ -59,3 +59,4 @@ export default class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
+

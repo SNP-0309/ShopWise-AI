@@ -101,7 +101,7 @@ export default function Wishlist() {
                   style={{ padding: '1.25rem' }}
                 >
                   <div style={{ display: 'flex', gap: '1rem' }}>
-                    <img src={item.image} alt={item.name} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 10, flexShrink: 0 }} />
+                    <img referrerPolicy="no-referrer" src={item.image} alt={item.name} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 10, flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <Link to={`/product/${item.productId}`}>
                         <p style={{ fontWeight: 600, fontSize: '0.875rem', lineHeight: 1.4, marginBottom: '0.25rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -147,7 +147,7 @@ export default function Wishlist() {
                   style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}
                 >
                   {alert.productImage && (
-                    <img src={alert.productImage} alt="" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 10, flexShrink: 0 }} />
+                    <img referrerPolicy="no-referrer" src={alert.productImage} alt="" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 10, flexShrink: 0 }} />
                   )}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.25rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{alert.productName}</p>

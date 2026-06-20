@@ -153,7 +153,7 @@ export default function Compare() {
                     {selectedProducts.map((p) => (
                       <th key={p.id} style={{ padding: '1rem', background: 'var(--bg-secondary)', border: '1px solid var(--border)', textAlign: 'center', minWidth: 200 }}>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                          <img src={p.image} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8 }} />
+                          <img referrerPolicy="no-referrer" src={p.image} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8 }} />
                           <p style={{ fontSize: '0.8rem', fontWeight: 600, lineHeight: 1.3 }}>{p.name}</p>
                           <p style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--primary)' }}>
                             {formatPrice(Math.min(...(p.storeListings?.map((l) => l.price) || [0])))}

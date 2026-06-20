@@ -121,30 +121,24 @@ export default function Login() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="card"
-        style={{
-          width: '100%',
-          maxWidth: 440,
-          padding: '2.5rem 2rem',
-          position: 'relative',
-          zIndex: 10,
-          boxShadow: 'var(--shadow-xl)',
-          border: '1px solid var(--border)',
-        }}
+        className="adidas-login-card"
       >
         {/* Back Link */}
         <Link to="/" style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          fontSize: '0.85rem',
-          color: 'var(--text-muted)',
+          fontSize: '0.8rem',
+          color: 'var(--text-secondary)',
           textDecoration: 'none',
           marginBottom: '1.5rem',
-          transition: 'color 0.2s'
+          transition: 'color 0.2s',
+          fontFamily: 'Oswald, sans-serif',
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em'
         }}
-          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
-          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
         >
           <FiArrowLeft size={14} /> Back to home
         </Link>
@@ -152,17 +146,17 @@ export default function Login() {
         {/* Logo/Brand Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{
-            width: 44, height: 44,
-            background: 'var(--gradient-primary)',
-            borderRadius: 12,
+            width: 48, height: 48,
+            background: 'black',
+            border: '2px solid black',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             marginBottom: '0.75rem',
-            boxShadow: '0 4px 15px rgba(108,99,255,0.3)'
+            boxShadow: '3px 3px 0px rgba(0,0,0,0.9)'
           }}>
-            <HiSparkles color="white" size={24} />
+            <HiSparkles color="var(--brand-accent)" size={24} />
           </div>
-          <h2 style={{ fontFamily: 'Sora', fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.35rem' }}>
-            {isRegister ? 'Create an Account' : 'Welcome Back'}
+          <h2 style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 800, fontSize: '1.75rem', marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.02em', color: 'var(--text-primary)' }}>
+            {isRegister ? 'Create Account' : 'Welcome Back'}
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
             {isRegister ? 'Join ShopWise AI for smart tracking & alerts' : 'Sign in to access your wishlist and alerts'}
@@ -179,16 +173,17 @@ export default function Login() {
               alignItems: 'center',
               gap: '0.75rem',
               background: 'rgba(239, 68, 68, 0.1)',
-              border: '1px solid rgba(239, 68, 68, 0.2)',
-              borderRadius: 'var(--radius-md)',
+              border: '2px solid #ef4444',
+              borderRadius: 0,
               padding: '0.75rem 1rem',
-              color: 'var(--danger)',
+              color: '#ef4444',
               fontSize: '0.875rem',
-              marginBottom: '1.5rem'
+              marginBottom: '1.5rem',
+              boxShadow: '3px 3px 0px rgba(239, 68, 68, 0.2)'
             }}
           >
             <FiAlertCircle size={16} style={{ flexShrink: 0 }} />
-            <span>{error}</span>
+            <span style={{ fontWeight: 600 }}>{error}</span>
           </motion.div>
         )}
 
@@ -197,7 +192,7 @@ export default function Login() {
           {/* — Name Field (Register only) — */}
           {isRegister && (
             <div>
-              <label htmlFor="name-input" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Name</label>
+              <label htmlFor="name-input" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--text-primary)', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Name</label>
               <div style={inputWrapperStyle}>
                 <FiUser style={iconStyle} size={16} />
                 <input
@@ -207,7 +202,7 @@ export default function Login() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   onBlur={() => setTouched((t) => ({ ...t, name: true }))}
-                  className="input-field"
+                  className="adidas-input"
                   style={{ paddingLeft: '2.5rem', width: '100%' }}
                   maxLength={100}
                   autoComplete="name"
@@ -221,7 +216,7 @@ export default function Login() {
 
           {/* — Email Field — */}
           <div>
-            <label htmlFor="email-input" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Email Address</label>
+            <label htmlFor="email-input" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 800, marginBottom: '0.4rem', color: 'var(--text-primary)', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email Address</label>
             <div style={inputWrapperStyle}>
               <FiMail style={iconStyle} size={16} />
               <input
@@ -231,7 +226,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-                className="input-field"
+                className="adidas-input"
                 style={{ paddingLeft: '2.5rem', width: '100%' }}
                 maxLength={254}
                 autoComplete="email"
@@ -244,10 +239,10 @@ export default function Login() {
 
           {/* — Password Field — */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-              <label htmlFor="password-input" style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Password</label>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+              <label htmlFor="password-input" style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Password</label>
               {!isRegister && (
-                <a href="#" style={{ fontSize: '0.82rem', color: 'var(--primary)', textDecoration: 'none' }}>Forgot?</a>
+                <a href="#" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'Oswald, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em', textDecoration: 'underline' }}>Forgot?</a>
               )}
             </div>
             <div style={inputWrapperStyle}>
@@ -259,7 +254,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, password: true }))}
-                className="input-field"
+                className="adidas-input"
                 style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem', width: '100%' }}
                 maxLength={128}
                 autoComplete={isRegister ? 'new-password' : 'current-password'}
@@ -313,8 +308,8 @@ export default function Login() {
             id="auth-submit-btn"
             type="submit"
             disabled={loading}
-            className="btn btn-primary"
-            style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', marginTop: '0.5rem' }}
+            className="adidas-auth-btn"
+            style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem' }}
           >
             {loading ? 'Processing...' : isRegister ? 'Create Account' : 'Sign In'}
           </button>
@@ -329,11 +324,15 @@ export default function Login() {
             style={{
               background: 'transparent',
               border: 'none',
-              color: 'var(--primary)',
-              fontWeight: 600,
+              color: 'var(--text-primary)',
+              fontWeight: 800,
               cursor: 'pointer',
               padding: 0,
-              fontSize: 'inherit'
+              fontSize: 'inherit',
+              fontFamily: 'Oswald, sans-serif',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              textDecoration: 'underline'
             }}
           >
             {isRegister ? 'Sign In' : 'Sign Up Free'}
@@ -343,4 +342,5 @@ export default function Login() {
     </div>
   );
 }
+
 

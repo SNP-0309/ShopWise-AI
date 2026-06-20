@@ -128,8 +128,7 @@ export default function ProductDetail() {
                 aspectRatio: '1',
               }}
             >
-              <img
-                src={product.images?.[activeImg] || product.image}
+              <img referrerPolicy="no-referrer" src={product.images?.[activeImg] || product.image}
                 alt={product.name}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
@@ -146,7 +145,7 @@ export default function ProductDetail() {
                       padding: 0, cursor: 'pointer', background: 'var(--bg-secondary)',
                     }}
                   >
-                    <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img referrerPolicy="no-referrer" src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </button>
                 ))}
               </div>

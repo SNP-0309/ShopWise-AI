@@ -76,6 +76,7 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
     if (origin === allowedOrigin) return callback(null, true);
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
     if (!isProduction && (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1'))) {
       return callback(null, true);
     }

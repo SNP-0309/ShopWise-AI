@@ -22,6 +22,8 @@ const userRoutes = require('./src/routes/users');
 const { startPriceAlertCron } = require('./src/utils/priceAlertCron');
 
 const app = express();
+// Trust proxy (required for rate limiting behind reverse proxies like Render)
+app.set('trust proxy', 1);
 const server = http.createServer(app);
 
 // Socket.io — restrict origin in production

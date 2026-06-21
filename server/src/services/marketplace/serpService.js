@@ -189,28 +189,8 @@ const searchProductsViaSerp = async (query, filters = {}) => {
     }
   }
 
-  // For products that have few trusted store listings, add fallback search links
+  // Sort listings by price
   for (const product of groupedProducts) {
-    const knownStoreKeys = product.storeListings.map(l => l.store);
-    const bestPrice = Math.min(...product.storeListings.map(l => l.price));
-
-    // Add Amazon/Flipkart search links if missing from real results
-    if (!knownStoreKeys.includes('amazon')) {
-      product.storeListings.push({
-        store: 'amazon', price: Math.round(bestPrice * 1.01), originalPrice: Math.round(bestPrice * 1.1),
-        discount: 8, delivery: 'Check on Amazon', inStock: true,
-        url: buildStoreSearchUrl('amazon', product.name), isFallback: true,
-      });
-    }
-    if (!knownStoreKeys.includes('flipkart')) {
-      product.storeListings.push({
-        store: 'flipkart', price: Math.round(bestPrice * 0.99), originalPrice: Math.round(bestPrice * 1.1),
-        discount: 10, delivery: 'Check on Flipkart', inStock: true,
-        url: buildStoreSearchUrl('flipkart', product.name), isFallback: true,
-      });
-    }
-
-    // Sort by price
     product.storeListings.sort((a, b) => a.price - b.price);
   }
 
